@@ -48,6 +48,18 @@ class PWEL_ROUTING {
         $this->relative_path = $_SERVER["DOCUMENT_ROOT"].$_SERVER['PHP_SELF'];
         $this->relative_path = str_replace("//", "/", $this->relative_path);
         $this->relative_path = str_replace("index.php", "", $this->relative_path);
+        if(is_dir($this->relative_path."app")) {
+            return;
+        }
+        $path = explode("/",$this->relative_path);
+        $count = count($path);
+        for($i=$count;$i>=0;--$i) {
+            unset($path[$i]);
+            $this->relative_path = implode("/",$path)."/";
+            if(is_dir($this->relative_path."/app")) {
+                break;
+            }
+        }
     }
  
     /**
@@ -111,7 +123,6 @@ class PWEL_ROUTING {
                 }
                 break;
         }
-        
         
     }
 

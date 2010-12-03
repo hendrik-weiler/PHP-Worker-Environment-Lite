@@ -13,7 +13,7 @@ class test {
     }
     
     function index() {
-        
+        print 'hello';
     }
     
     function Frank() {
