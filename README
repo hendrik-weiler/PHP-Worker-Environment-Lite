@@ -5,6 +5,8 @@ Channelog:
 ----------------------------------------
 V 1.02
 -Added namespace function, able now to load controllers/models/views from subfolders
+-Added namespaceRange
+-Added autosearch
 
 V 1.01
 -Added PWEL_SQL ( a selectorClass for the standalone sql classes from my collection )
