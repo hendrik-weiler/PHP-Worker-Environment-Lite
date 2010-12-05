@@ -32,15 +32,19 @@ class PWEL_CONTROLLER {
             }
             else {
                 $extension = ".php";
-            }
-            
+            }        
         }
         else {
             $filename .= ".php";
         }
-        if(file_exists(PWEL_ROUTING::$relative_path."app/views/{$filename}{$extension}")) {
+        PWEL_ROUTING::correctNamespace();
+        //Set & Correct path 
+        $path = PWEL_ROUTING::$relative_path."app/views/".PWEL_ROUTING::$namespace."{$filename}{$extension}";
+        $path = str_replace("//","/",$path);
+        /////////////////////
+        if(file_exists($path)) {
             extract(get_object_vars($this));
-            require PWEL_ROUTING::$relative_path."app/views/{$filename}{$extension}";
+            require $path;
         }
         else {
             //Error Output: file doenst exist

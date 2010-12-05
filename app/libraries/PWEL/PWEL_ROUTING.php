@@ -20,6 +20,26 @@ class PWEL_ROUTING {
      */
     static $error_controller;
     
+    /**
+     * Set a namespace for getting controllers/views/models from right folder
+     * Example:
+     * PWEL_ROUTING::$namespace = "projectname";
+     * It try to get all now all from app/models/projectname,app/views/projectname/app/controller/projectname
+     * @var string
+     */
+    static $namespace;
+    
+    /**
+     * Sets the range of the accessable namespaces by enabled controller search
+     * @var array
+     */
+    static $namespaceRange = array();
+ 
+    /**
+     * If set to true the given controller will be searched in '$namespace / subfolders'
+     * @var bool
+     */   
+    static $controllerSearch = false;
     
     /**
      * Path to current directory
@@ -39,6 +59,14 @@ class PWEL_ROUTING {
      */
     static $config = array();
     
+    
+    /**
+     * Path to controller (used in controllersearch method)
+     * @var string
+     */
+    private $pathToController; 
+    
+    
     /**
      * Sets relative path and start routing
      */
@@ -52,18 +80,18 @@ class PWEL_ROUTING {
      * Locate the relative path to the current directory and save it
      */
     private function locateRelativePath() {  
-        $this->relative_path = $_SERVER["DOCUMENT_ROOT"].$_SERVER['PHP_SELF'];
-        $this->relative_path = str_replace("//", "/", $this->relative_path);
-        $this->relative_path = str_replace("index.php", "", $this->relative_path);
-        if(is_dir($this->relative_path."app")) {
+        self::$relative_path = $_SERVER["DOCUMENT_ROOT"].$_SERVER['PHP_SELF'];
+        self::$relative_path = str_replace("//", "/", self::$relative_path);
+        self::$relative_path = str_replace("index.php", "", self::$relative_path);
+        if(is_dir(self::$relative_path."app")) {
             return;
         }
-        $path = explode("/",$this->relative_path);
+        $path = explode("/",self::$relative_path);
         $count = count($path);
         for($i=$count;$i>=0;--$i) {
             unset($path[$i]);
-            $this->relative_path = implode("/",$path)."/";
-            if(is_dir($this->relative_path."/app")) {
+            self::$relative_path = implode("/",$path)."/";
+            if(is_dir(self::$relative_path."/app")) {
                 break;
             }
         }
@@ -74,8 +102,8 @@ class PWEL_ROUTING {
      * 
      */
     private function getConfig() {
-        if(file_exists(PWEL_ROUTING::$relative_path."app/config.ini"))
-        self::$config = parse_ini_file(PWEL_ROUTING::$relative_path."app/config.ini",true);
+        if(file_exists(self::$relative_path."app/config.ini"))
+        self::$config = parse_ini_file(self::$relative_path."app/config.ini",true);
     }
  
     /**
@@ -148,12 +176,71 @@ class PWEL_ROUTING {
      * @return string/false 
      */
     private function checkIncludeControllerClass($class) {
-        if(file_exists($this->relative_path.'app/controller/'.$class.'.php')) {
-            require_once $this->relative_path.'app/controller/'.$class.'.php';
+        if(!empty(self::$namespace)) {
+            self::correctNamespace();
+        }
+        if(self::$controllerSearch == true) {
+            $this->controllerSearch("app/controller/",$class);
+            self::$namespace = str_replace("app/controller/","",self::$namespace);
+        }
+        if(file_exists(self::$relative_path.'app/controller/'.self::$namespace.$class.'.php')) {
+            require_once self::$relative_path.'app/controller/'.self::$namespace.$class.'.php';
             return $class;
         }     
         else {
             return false;
+        }
+    }
+    
+    /**
+     * This function correct the namespace value 
+     * Example: /html/ -> html/, projectname
+     */
+    static function correctNamespace() {
+       $namespace = self::$namespace."/";
+       $namespace = str_replace("//","/",$namespace);
+       $namespace = str_replace("./","",$namespace);
+       $namespace = str_replace(".","",$namespace);
+       self::$namespace = $namespace;
+    }
+   
+    /**
+     * Browsing subfolders of 'app/controller/' after a specific controller
+     * @var string $path
+     * @var string $search
+     * @return bool
+     */
+    private function controllerSearch($path, $search) {
+        $dir = self::$relative_path.$path;
+        if(!is_dir($dir)) { return false; }
+        $directoryContent = scandir($dir);
+        if(in_array($search.".php",$directoryContent)) {
+            self::$namespace = $path;
+            return true;
+        }
+        else {
+            $hasDirectory = false;
+            foreach($directoryContent as $file) {
+                if(is_dir($dir.$file) && $file != "." && $file != "..") {
+                    if(!in_array($file,self::$namespaceRange)) {
+                        $dirs[] = $path.$file;
+                        $hasDirectory = true;
+                    }
+                }
+            }
+            if($hasDirectory == true && !empty($dirs)) {
+                foreach($dirs as $directory) {
+                    if($this->controllerSearch($directory."/", $search) == false) {
+                        return false;
+                    }
+                    else {
+                        return true;
+                    }
+                }
+            }
+            else {
+                return false;
+            }
         }
     }
 }

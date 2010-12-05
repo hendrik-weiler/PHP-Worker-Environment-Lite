@@ -1,0 +1,14 @@
+PHP Worker Environment Lite 
+Version: 1.02
+
+Channelog:
+----------------------------------------
+V 1.02
+-Added namespace function, able now to load controllers/models/views from subfolders
+
+V 1.01
+-Added PWEL_SQL ( a selectorClass for the standalone sql classes from my collection )
+
+V 1.00
+-Added PWEL_ROUTING,PWEL_CONTROLLER,PWEL_URL ( Runs the framework smoothly )
+-Using Auto_Class_Load from my collection as class loader for all files in index.php
