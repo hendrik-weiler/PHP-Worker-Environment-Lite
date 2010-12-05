@@ -45,10 +45,12 @@ class Class_Auto_Load {
         $this->set_new_include_path();
         $searchDir = opendir($dir);
         while($file = readdir($searchDir)) {
-            if(is_dir($this->loadPath."/".$file)) {
-                $this->loadPath = $this->loadPath."/".$file;
-                $this->include_classes($file);
-            }
+            //Subfolder including if it would work
+            //////////////////////////////////////
+            //if(is_dir($this->loadPath."/".$file)) {
+            //    $this->loadPath = $this->loadPath."/".$file;
+            //   $this->include_classes($file);
+            //}
             if(preg_match("/(.*).php/i",$file)) {
                 require_once $file;
             }

@@ -14,10 +14,24 @@ class Items_Table_Row {
     
     /**
      * Stores all elements into property
-     * @param array/string $elements 
+     * 
+     * @param array/object $elements 
      */
-    public function __construct($elements) {
-        $this->elements = $elements;
+    public function __construct($elements,$receive="value") {
+        if(is_array($elements)) {
+            $this->elements = $elements;
+        }
+        if(is_object($elements)) {
+            foreach($elements as $column => $value) {
+                if($receive == "value") {
+                    $valueArray[] = $value;
+                }
+                if($receive == "key") {
+                    $valueArray[] = $column;
+                }
+            }
+            $this->elements = $valueArray;
+        }
     }
 }
     //Hendrik's Class Collection

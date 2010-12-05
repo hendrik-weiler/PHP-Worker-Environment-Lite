@@ -25,7 +25,7 @@ class PWEL_ROUTING {
      * Path to current directory
      * @var string
      */
-    private $relative_path;
+    static $relative_path;
     
     /**
      * All url variables
@@ -34,10 +34,17 @@ class PWEL_ROUTING {
     private $url_variables;
     
     /**
+     * Config informations are stored in it
+     * @var array
+     */
+    static $config = array();
+    
+    /**
      * Sets relative path and start routing
      */
     public function __construct() {
         $this->locateRelativePath();
+        $this->getConfig();
         $this->routeCurrentDir();
     }
 
@@ -60,6 +67,15 @@ class PWEL_ROUTING {
                 break;
             }
         }
+    }
+ 
+    /**
+     * Loads the config file
+     * 
+     */
+    private function getConfig() {
+        if(file_exists(PWEL_ROUTING::$relative_path."app/config.ini"))
+        self::$config = parse_ini_file(PWEL_ROUTING::$relative_path."app/config.ini",true);
     }
  
     /**
