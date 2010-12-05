@@ -39,7 +39,7 @@ class PWEL_ROUTING {
      * If set to true the given controller will be searched in '$namespace / subfolders'
      * @var bool
      */   
-    static $controllerSearch = false;
+    static $autoSearch = false;
     
     /**
      * Path to current directory
@@ -179,8 +179,8 @@ class PWEL_ROUTING {
         if(!empty(self::$namespace)) {
             self::correctNamespace();
         }
-        if(self::$controllerSearch == true) {
-            $this->controllerSearch("app/controller/",$class);
+        if(self::$autoSearch == true) {
+            self::autoSearch("app/controller/",$class.".php");
             self::$namespace = str_replace("app/controller/","",self::$namespace);
         }
         if(file_exists(self::$relative_path.'app/controller/'.self::$namespace.$class.'.php')) {
@@ -210,11 +210,11 @@ class PWEL_ROUTING {
      * @var string $search
      * @return bool
      */
-    private function controllerSearch($path, $search) {
+    static function autoSearch($path, $search) {
         $dir = self::$relative_path.$path;
         if(!is_dir($dir)) { return false; }
         $directoryContent = scandir($dir);
-        if(in_array($search.".php",$directoryContent)) {
+        if(in_array($search,$directoryContent)) {
             self::$namespace = $path;
             return true;
         }
@@ -230,7 +230,7 @@ class PWEL_ROUTING {
             }
             if($hasDirectory == true && !empty($dirs)) {
                 foreach($dirs as $directory) {
-                    if($this->controllerSearch($directory."/", $search) == false) {
+                    if(self::autoSearch($directory."/", $search) == false) {
                         return false;
                     }
                     else {

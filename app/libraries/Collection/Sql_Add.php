@@ -26,7 +26,7 @@ class Sql_Add {
     
     
     /**
-     * An array of all changes which should be made
+     * An array of all additions which should be made
      * Example:
      * array("ID"=>5,"username"=>"newuser")
      * @var array $newValues
@@ -72,7 +72,7 @@ class Sql_Add {
     }
     
     /**
-     * Generate the update query
+     * Generate the insert query
      * @return string
      */
     private function generateQuery() {
@@ -111,7 +111,7 @@ class Sql_Add {
     }
     
     /**
-     * Update the database
+     * add a row in the database
      * @return bool
      */
     public function add() {

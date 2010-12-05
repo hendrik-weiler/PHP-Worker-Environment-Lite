@@ -38,10 +38,14 @@ class PWEL_CONTROLLER {
             $filename .= ".php";
         }
         PWEL_ROUTING::correctNamespace();
+        if(PWEL_ROUTING::$autoSearch == true) {
+            PWEL_ROUTING::autoSearch("app/views/",$filename);
+            PWEL_ROUTING::$namespace = str_replace("app/views/","",PWEL_ROUTING::$namespace);
+        }  
         //Set & Correct path 
         $path = PWEL_ROUTING::$relative_path."app/views/".PWEL_ROUTING::$namespace."{$filename}{$extension}";
         $path = str_replace("//","/",$path);
-        /////////////////////
+        /////////////////////      
         if(file_exists($path)) {
             extract(get_object_vars($this));
             require $path;

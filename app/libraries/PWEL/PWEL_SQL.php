@@ -1,6 +1,6 @@
 <?php
 /**
- * PHP Worker Environment Lite - SQL Class
+ * PHP Worker Environment Lite - SQL selector class
  * 
  * Managing the login into sql database
  * 
