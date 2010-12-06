@@ -1,8 +1,13 @@
 PHP Worker Environment Lite 
-Version: 1.02
+Version: 1.03
 
 Channelog:
 ----------------------------------------
+V 1.03
+-Added own components support
+    ( Just for "route" process so far )
+-Added PWEL_COMPONENT_LAYOUT
+
 V 1.02
 -Added namespace function, able now to load controllers/models/views from subfolders
 -Added namespaceRange
