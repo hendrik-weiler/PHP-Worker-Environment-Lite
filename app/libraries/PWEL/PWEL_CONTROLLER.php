@@ -40,6 +40,7 @@ class PWEL_CONTROLLER {
         PWEL_ROUTING::correctNamespace();
         if(PWEL_ROUTING::$autoSearch == true) {
             PWEL_ROUTING::autoSearch("app/views/",$filename);
+            PWEL_ROUTING::$namespace = PWEL_ROUTING::$searchResult;
             PWEL_ROUTING::$namespace = str_replace("app/views/","",PWEL_ROUTING::$namespace);
         }  
         //Set & Correct path 

@@ -37,9 +37,11 @@ class PWEL_ROUTING {
  
     /**
      * If set to true the given controller will be searched in '$namespace / subfolders'
-     * @var bool
+     * @var bool $autoSearch
+     * @var string $searchResult
      */   
     static $autoSearch = false;
+    static $searchResult;
     
     /**
      * Path to current directory
@@ -66,14 +68,52 @@ class PWEL_ROUTING {
      */
     private $pathToController; 
     
+    /**
+     * Array of all components
+     * @var array
+     */
+    private $components = array();
     
     /**
      * Sets relative path and start routing
      */
     public function __construct() {
+        $this->initComponents(func_get_args());
         $this->locateRelativePath();
         $this->getConfig();
         $this->routeCurrentDir();
+    }
+
+    /**
+     * Initialize components at startup
+     * @var array $arguments
+     */
+    private function initComponents($arguments) {
+        if(!is_array($arguments)) { return false; }
+        foreach($arguments as $arg) {
+            if(is_object($arg)) {
+                $this->components[$arg->_componentTarget][] = $arg;
+            }
+        }
+    }
+
+    private function prepareComponent($componentTarget) {
+        if(empty($this->components)) {
+            return false;
+        }
+        foreach($this->components[$componentTarget] as $component) {
+            if(method_exists($component,"_initFunctions")) {
+               if(isset($component->_executionPosition)) {
+                   $component->_initFunctions();
+                   $return[$component->_executionPosition][] = $component;
+               }
+            }
+            else {
+               $component->_initFunctions();
+               $return['start'][] = $component;
+            }
+        }
+        return $return;
     }
 
     /**
@@ -111,6 +151,17 @@ class PWEL_ROUTING {
      * @return null
      */
     private function routeCurrentDir() {
+        $components = $this->prepareComponent("route");
+        //Execute components at start of function
+        if($components['start']) {
+            foreach($components['start'] as $component) {
+                $component->_execute();
+                if($component->_forceReturn == true) {
+                    return;
+                }
+            }
+        }
+        /////////////////////////////////////////
         $url = new PWEL_URL();
         $this->url_variables = $url->locateUrlVariables();
         if(empty($this->url_variables)) {
@@ -120,9 +171,29 @@ class PWEL_ROUTING {
                 $check = $this->checkIncludeControllerClass(self::$error_controller);
                 if(!$check) { return; } 
             }
-            $this->displayController(new $check(),"startController");
+            //Execute components at display of function
+            if($components['display']) {
+                foreach($components['display'] as $component) {
+                    $this->displayController($component,"component");
+                    if($component->_forceReturn == true) {
+                        return;
+                    }
+                }
+            }
+            /////////////////////////////////////////
+            $this->displayController(new $check(),"startController"); 
         }
         else {
+            //Execute components at display of function
+            if($components['display']) {
+                foreach($components['display'] as $component) {
+                    $this->displayController($component,"component");
+                    if($component->_forceReturn == true) {
+                        return;
+                    }
+                }
+            }
+            /////////////////////////////////////////            
             $check = $this->checkIncludeControllerClass($this->url_variables[0]);
             if($check) {}
             else {
@@ -131,6 +202,16 @@ class PWEL_ROUTING {
             }
             $this->displayController(new $check());
         }
+        //Execute components at end of function
+        if($components['end']) {
+            foreach($components['end'] as $component) {
+                $component->_execute();
+                if($component->_forceReturn == true) {
+                    return;
+                }
+            }
+        }
+        ///////////////////////////////////////
     }
 
     /**
@@ -151,7 +232,14 @@ class PWEL_ROUTING {
                     // Error Output: No index defined!
                 }
                 break;
-                
+            case "component":
+                if(method_exists($class, "_execute")) {
+                    $class->_execute();
+                }
+                else {
+                    // Error Output: No index defined!
+                }
+                break;    
             case "default":
                 if(isset($this->url_variables[1]) && method_exists($class, $this->url_variables[1])) {
                     $method = $this->url_variables[1];
@@ -181,6 +269,7 @@ class PWEL_ROUTING {
         }
         if(self::$autoSearch == true) {
             self::autoSearch("app/controller/",$class.".php");
+            self::$namespace = self::$searchResult;
             self::$namespace = str_replace("app/controller/","",self::$namespace);
         }
         if(file_exists(self::$relative_path.'app/controller/'.self::$namespace.$class.'.php')) {
@@ -215,7 +304,7 @@ class PWEL_ROUTING {
         if(!is_dir($dir)) { return false; }
         $directoryContent = scandir($dir);
         if(in_array($search,$directoryContent)) {
-            self::$namespace = $path;
+            self::$searchResult = $path;
             return true;
         }
         else {
@@ -230,13 +319,11 @@ class PWEL_ROUTING {
             }
             if($hasDirectory == true && !empty($dirs)) {
                 foreach($dirs as $directory) {
-                    if(self::autoSearch($directory."/", $search) == false) {
-                        return false;
-                    }
-                    else {
+                    if(self::autoSearch($directory."/", $search) == true) {
                         return true;
                     }
                 }
+                return false;
             }
             else {
                 return false;
