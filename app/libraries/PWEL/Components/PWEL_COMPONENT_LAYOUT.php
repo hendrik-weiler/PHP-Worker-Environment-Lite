@@ -7,7 +7,7 @@
      * @author Hendrik Weiler
      * @package PWEL_COMPONENT
      */
-    class PWEL_COMPONENT_LAYOUT {
+    class PWEL_COMPONENT_LAYOUT extends PWEL_CONTROLLER {
         /**
          * Action variables which use the routing class
          * @var string $_componentTarget
@@ -66,7 +66,7 @@
          * Execute the component
          */
         public function _execute() {
-            if(self::$visible == true)  {
+            if(self::$visible == true && PWEL_ROUTING::$controllerNotFound == false)  {
                 extract((array)self::$variables);
                 PWEL_ROUTING::autoSearch("app/views/",self::$file);
                 require_once PWEL_ROUTING::$relative_path.PWEL_ROUTING::$searchResult.self::$file;

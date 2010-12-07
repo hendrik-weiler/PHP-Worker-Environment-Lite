@@ -7,7 +7,7 @@
  * @author Hendrik Weiler
  * @package PWEL
  */
-class PWEL_ROUTING {
+class PWEL_ROUTING extends PWEL_CONTROLLER {
     /**
      * The controller which will be load automaticly if no variables are given
      * @var string
@@ -73,6 +73,12 @@ class PWEL_ROUTING {
      * @var array
      */
     private $components = array();
+    
+    /**
+     * Contains the current state of the controller
+     * @var bool
+     */
+    static $controllerNotFound = false;
     
     /**
      * Sets relative path and start routing
@@ -163,7 +169,7 @@ class PWEL_ROUTING {
         }
         /////////////////////////////////////////
         $url = new PWEL_URL();
-        $this->url_variables = array_values($url->locateUrlVariables());
+        $this->url_variables = $url->locateUrlVariables();
         if(empty($this->url_variables)) {
             $check = $this->checkIncludeControllerClass(self::$start_controller);
             if($check) {}
@@ -182,6 +188,7 @@ class PWEL_ROUTING {
             }
             /////////////////////////////////////////
             $this->displayController(new $check(),"startController"); 
+            self::$controllerNotFound = false;
         }
         else {
             //Execute components at display of function
@@ -193,11 +200,13 @@ class PWEL_ROUTING {
                     }
                 }
             }
-            /////////////////////////////////////////          
+            /////////////////////////////////////////            
+            self::$controllerNotFound = false;
             $check = $this->checkIncludeControllerClass($this->url_variables[0]);
             if($check) {}
             else {
                 $check = $this->checkIncludeControllerClass(self::$error_controller);
+                self::$controllerNotFound = true;
                 if(!$check) { return; }                 
             }
             $this->displayController(new $check());
@@ -269,11 +278,10 @@ class PWEL_ROUTING {
         }
         if(self::$autoSearch == true) {
             self::autoSearch("app/controller/",$class.".php");
-            self::$namespace = self::$searchResult;
-            self::$namespace = str_replace("app/controller/","",self::$namespace);
+            self::$searchResult = str_replace("app/controller/","",self::$searchResult);
         }
-        if(file_exists(self::$relative_path.'app/controller/'.self::$namespace.$class.'.php')) {
-            require_once self::$relative_path.'app/controller/'.self::$namespace.$class.'.php';
+        if(file_exists(self::$relative_path.'app/controller/'.self::$searchResult.$class.'.php')) {
+            require_once self::$relative_path.'app/controller/'.self::$searchResult.$class.'.php';
             return $class;
         }     
         else {

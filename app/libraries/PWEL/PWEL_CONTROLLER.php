@@ -40,11 +40,10 @@ class PWEL_CONTROLLER {
         PWEL_ROUTING::correctNamespace();
         if(PWEL_ROUTING::$autoSearch == true) {
             PWEL_ROUTING::autoSearch("app/views/",$filename);
-            PWEL_ROUTING::$namespace = PWEL_ROUTING::$searchResult;
-            PWEL_ROUTING::$namespace = str_replace("app/views/","",PWEL_ROUTING::$namespace);
+            PWEL_ROUTING::$searchResult = str_replace("app/views/","",PWEL_ROUTING::$searchResult);
         }  
         //Set & Correct path 
-        $path = PWEL_ROUTING::$relative_path."app/views/".PWEL_ROUTING::$namespace."{$filename}{$extension}";
+        $path = PWEL_ROUTING::$relative_path."app/views/".PWEL_ROUTING::$searchResult."{$filename}{$extension}";
         $path = str_replace("//","/",$path);
         /////////////////////      
         if(file_exists($path)) {
@@ -53,6 +52,40 @@ class PWEL_CONTROLLER {
         }
         else {
             //Error Output: file doenst exist
+        }
+    }
+    
+    /**
+     * Returns a validated css link tag
+     * @var string
+     * @return string
+     */
+    public function validateCss($file) {
+        $path = $this->doValidation($file);
+        return '<link rel="stylesheet" href="'.$path.$file.'">'; 
+    }
+
+    /**
+     * Returns a validated script link tag
+     * @var string
+     * @return string
+     */    
+    public function validateJS($file) {
+        $path = $this->doValidation($file);
+        return '<script type="text/js" src="'.$path.$file.'"></script>';
+    }
+    
+    /**
+     * Returns the correct path
+     * @return string
+     */
+    private function doValidation($file) {        
+        //$projectDir = PWEL_ROUTING::$namespace;
+        if(!preg_match("#http(s)?://(www.)?(.*).[a-museum](/)?(.*)?#i",$file)) {
+            while(!file_exists($projectDir.$file)) {
+                $projectDir = "../".$projectDir;
+            }
+            return $projectDir;
         }
     }
 }
