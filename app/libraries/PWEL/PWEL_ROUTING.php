@@ -163,7 +163,7 @@ class PWEL_ROUTING {
         }
         /////////////////////////////////////////
         $url = new PWEL_URL();
-        $this->url_variables = $url->locateUrlVariables();
+        $this->url_variables = array_values($url->locateUrlVariables());
         if(empty($this->url_variables)) {
             $check = $this->checkIncludeControllerClass(self::$start_controller);
             if($check) {}
@@ -193,7 +193,7 @@ class PWEL_ROUTING {
                     }
                 }
             }
-            /////////////////////////////////////////            
+            /////////////////////////////////////////          
             $check = $this->checkIncludeControllerClass($this->url_variables[0]);
             if($check) {}
             else {

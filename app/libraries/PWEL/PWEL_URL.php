@@ -17,8 +17,10 @@ class PWEL_URL {
         $realUriPath = $_SERVER['REQUEST_URI'];
         $realPhpPath = $_SERVER['PHP_SELF'];
         
-        $realPhpPathSearch = str_replace("index.php", "", $realPhpPath);
-        
+        if(str_replace("index.php", "", $realPhpPath) != "/") {
+            $realPhpPathSearch = str_replace("index.php", "", $realPhpPath);
+        }
+           
         $realUriVar = str_replace($realPhpPathSearch, "", $realUriPath);
         
         $realUriVarArray = explode("/", $realUriVar);
