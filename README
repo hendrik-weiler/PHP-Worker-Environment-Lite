@@ -3,6 +3,10 @@ Version: 1.03
 
 Channelog:
 ----------------------------------------
+V 1.04
+-Added PWEL_COMPONENT_ROUTE
+-Modified & Improved component system
+
 V 1.03
 -Added own components support
     ( Just for "route" process so far )

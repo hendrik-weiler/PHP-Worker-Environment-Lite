@@ -110,8 +110,11 @@ class PWEL_ROUTING extends PWEL_CONTROLLER {
         foreach($arguments as $arg) {
             if(is_object($arg)) {
                 $this->components[$arg->_componentTarget][] = $arg;
-                $this->execComponents($arg->_componentTarget);
             }
+        }
+        foreach($this->componentCalls as $call => $x) {
+            if($this->components[$call])
+                $this->execComponents($call);
         }
     }
     
@@ -246,15 +249,7 @@ class PWEL_ROUTING extends PWEL_CONTROLLER {
                 else {
                     // Error Output: No index defined!
                 }
-                break;
-            case "component":
-                if(method_exists($class, "_execute")) {
-                    $class->_execute();
-                }
-                else {
-                    // Error Output: No index defined!
-                }
-                break;    
+                break; 
             case "default":
                 if(isset($this->url_variables[1]) && method_exists($class, $this->url_variables[1])) {
                     $method = $this->url_variables[1];
