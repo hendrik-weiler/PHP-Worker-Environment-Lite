@@ -112,7 +112,7 @@ class PWEL_ROUTING extends PWEL_CONTROLLER {
                 $this->components[$arg->_componentTarget][] = $arg;
             }
         }
-        foreach($this->componentCalls as $call => $x) {
+        foreach(self::$componentCalls as $call => $x) {
             if($this->components[$call])
                 $this->execComponents($call);
         }
@@ -182,7 +182,7 @@ class PWEL_ROUTING extends PWEL_CONTROLLER {
             foreach($components['start'] as $component) {
                 $component->_execute();
                 if($component->_standAlone == false) {
-                    $func = $this->componentCalls[$typeOf];
+                    $func = self::$componentCalls[$typeOf];
                     $this->$func();
                 }
             }
@@ -192,7 +192,7 @@ class PWEL_ROUTING extends PWEL_CONTROLLER {
         if($components['end']) {
             foreach($components['end'] as $component) {
                 if($component->_standAlone == false) {
-                    $func = $this->componentCalls[$typeOf];
+                    $func = self::$componentCalls[$typeOf];
                     $this->$func();
                 }                
                 $component->_execute();
