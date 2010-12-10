@@ -1,6 +1,10 @@
 <?php
 require_once '../app/libraries/Class_Auto_Load.php';
+require_once '../app/libraries/PWE_STARTUP/cases.php';
+require_once '../app/libraries/PWE_STARTUP/sql.php';
+
 new Class_Auto_Load('../app/models/html');
+new Class_Auto_Load('../app/libraries/PWE');
 new Class_Auto_Load('../app/libraries/PWEL');
 new Class_Auto_Load('../app/libraries/PWEL/Components');
 new Class_Auto_Load('../app/libraries/Collection');

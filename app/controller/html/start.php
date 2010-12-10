@@ -24,7 +24,10 @@
         
         function layout() {
             $this->variable = "Hello, im a layout!";
-            
+            $pwe = new PWEL_PWE_SUPPORT();
+            $i = $pwe->getClasses();
+            print $i->form->open("./","post")->button("Im a Button!")->close();
+
         }
         
         public function __destruct() {
