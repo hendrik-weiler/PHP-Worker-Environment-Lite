@@ -84,7 +84,7 @@ class PWEL_ROUTING extends PWEL_CONTROLLER {
      * Handles correct function calls at component execution
      * @var array
      */
-    private $componentCalls = array(
+    static $componentCalls = array(
         "route" => "routeCurrentDir",
         "display" => "displayController"
     );
