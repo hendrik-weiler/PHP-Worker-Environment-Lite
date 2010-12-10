@@ -2,7 +2,18 @@
     class start extends PWEL_CONTROLLER {
         function index() {
             PWEL_COMPONENT_LAYOUT::disableLayout();
-            $this->display("pwel");
+            switch(PWEL_COMPONENT_ROUTE::$variables["lang"]) {
+                case "de":
+                    $file = "pwel_de";
+                break;
+                case "eng":
+                    $file = "pwel_eng";
+                break;
+                default:
+                    $file = "pwel_eng";
+                break;
+            }
+            $this->display($file);
         }
         
         function autosearch() {

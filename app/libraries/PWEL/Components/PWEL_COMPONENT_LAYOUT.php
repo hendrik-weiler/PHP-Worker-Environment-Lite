@@ -12,11 +12,11 @@
          * Action variables which use the routing class
          * @var string $_componentTarget
          * @var string $_executionPosition
-         * @var bool $_forceReturn
+         * @var bool $_standAlone
          */
         public $_componentTarget = "route";
         public $_executionPosition = "end";
-        public $_forceReturn = false;
+        public $_standAlone = true;
         
         /**
          * Contains the layoutfile

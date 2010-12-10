@@ -81,13 +81,24 @@ class PWEL_ROUTING extends PWEL_CONTROLLER {
     static $controllerNotFound = false;
     
     /**
+     * Handles correct function calls at component execution
+     * @var array
+     */
+    private $componentCalls = array(
+        "route" => "routeCurrentDir",
+        "display" => "displayController"
+    );
+    
+    /**
      * Sets relative path and start routing
      */
     public function __construct() {
-        $this->initComponents(func_get_args());
         $this->locateRelativePath();
         $this->getConfig();
-        $this->routeCurrentDir();
+        $this->initComponents(func_get_args());
+        if(!$this->components["route"]) {
+           $this->routeCurrentDir(); 
+        }
     }
 
     /**
@@ -99,10 +110,15 @@ class PWEL_ROUTING extends PWEL_CONTROLLER {
         foreach($arguments as $arg) {
             if(is_object($arg)) {
                 $this->components[$arg->_componentTarget][] = $arg;
+                $this->execComponents($arg->_componentTarget);
             }
         }
     }
-
+    
+    /**
+     * Prepare a component type for execution
+     * @var string $componentTarget
+     */
     private function prepareComponent($componentTarget) {
         if(empty($this->components)) {
             return false;
@@ -153,21 +169,40 @@ class PWEL_ROUTING extends PWEL_CONTROLLER {
     }
  
     /**
-     * Checks if the controllers are avaible else send to error controller
-     * @return null
+     * Execute the components
+     * @var string $typeOf
      */
-    private function routeCurrentDir() {
-        $components = $this->prepareComponent("route");
+    private function execComponents($typeOf) {
+        $components = $this->prepareComponent($typeOf);
         //Execute components at start of function
         if($components['start']) {
             foreach($components['start'] as $component) {
                 $component->_execute();
-                if($component->_forceReturn == true) {
-                    return;
+                if($component->_standAlone == false) {
+                    $func = $this->componentCalls[$typeOf];
+                    $this->$func();
                 }
             }
         }
         /////////////////////////////////////////
+        //Execute components at end of function
+        if($components['end']) {
+            foreach($components['end'] as $component) {
+                if($component->_standAlone == false) {
+                    $func = $this->componentCalls[$typeOf];
+                    $this->$func();
+                }                
+                $component->_execute();
+            }
+        }
+        ///////////////////////////////////////
+    }
+    
+    /**
+     * Checks if the controllers are avaible else send to error controller
+     * @return null
+     */
+    private function routeCurrentDir() {
         $url = new PWEL_URL();
         $this->url_variables = $url->locateUrlVariables();
         if(empty($this->url_variables)) {
@@ -177,30 +212,10 @@ class PWEL_ROUTING extends PWEL_CONTROLLER {
                 $check = $this->checkIncludeControllerClass(self::$error_controller);
                 if(!$check) { return; } 
             }
-            //Execute components at display of function
-            if($components['display']) {
-                foreach($components['display'] as $component) {
-                    $this->displayController($component,"component");
-                    if($component->_forceReturn == true) {
-                        return;
-                    }
-                }
-            }
-            /////////////////////////////////////////
             $this->displayController(new $check(),"startController"); 
             self::$controllerNotFound = false;
         }
         else {
-            //Execute components at display of function
-            if($components['display']) {
-                foreach($components['display'] as $component) {
-                    $this->displayController($component,"component");
-                    if($component->_forceReturn == true) {
-                        return;
-                    }
-                }
-            }
-            /////////////////////////////////////////            
             self::$controllerNotFound = false;
             $check = $this->checkIncludeControllerClass($this->url_variables[0]);
             if($check) {}
@@ -211,16 +226,7 @@ class PWEL_ROUTING extends PWEL_CONTROLLER {
             }
             $this->displayController(new $check());
         }
-        //Execute components at end of function
-        if($components['end']) {
-            foreach($components['end'] as $component) {
-                $component->_execute();
-                if($component->_forceReturn == true) {
-                    return;
-                }
-            }
-        }
-        ///////////////////////////////////////
+
     }
 
     /**
