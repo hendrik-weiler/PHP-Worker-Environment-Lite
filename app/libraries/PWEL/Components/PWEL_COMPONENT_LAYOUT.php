@@ -16,7 +16,7 @@
          */
         public $_componentTarget = "route";
         public $_executionPosition = "end";
-        public $_standAlone = true;
+        public $_standAlone = false;
         
         /**
          * Contains the layoutfile
