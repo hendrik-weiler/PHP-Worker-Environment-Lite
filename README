@@ -1,5 +1,16 @@
 PHP Worker Environment Lite 
-Version: 1.03
+Version: 1.04
+
+About:
+----------------------------------------
+If you want a 3 Words configuration before you can start
+developing this framework is the right choice. It contains mvc & hmvc
+optional you can use a layout or create a custom routing. You can add
+every standalone libraries aslong you give the command to load in index.php.
+You can create own components which can be included before or after the routing 
+or the display process.
+
+Its made for those who want a easy start ! 
 
 Channelog:
 ----------------------------------------
