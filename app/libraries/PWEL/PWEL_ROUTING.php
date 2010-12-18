@@ -303,7 +303,7 @@ class PWEL_ROUTING extends PWEL_CONTROLLER {
     }
    
     /**
-     * Browsing subfolders of 'app/controller/' after a specific controller
+     * Browsing subfolders after a specific file
      * @var string $path
      * @var string $search
      * @return bool

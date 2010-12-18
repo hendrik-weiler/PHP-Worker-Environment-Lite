@@ -26,7 +26,7 @@
             $this->variable = "Hello, im a layout!";
             $pwe = new PWEL_PWE_SUPPORT();
             $i = $pwe->getClasses();
-            print $i->form->open("./","post")->button("Im a Button!")->close();
+            print $i->form->open("hallo/du","post")->button("Im a Button!")->close();
 
         }
         
