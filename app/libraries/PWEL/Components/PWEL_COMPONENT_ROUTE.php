@@ -1,7 +1,7 @@
 <?php
     /**
      * PHP Worker Environment Lite Components - Route
-     * 
+     *
      * Advanced component for routing
      * Making custom routes possible
      *
@@ -18,20 +18,20 @@
         public $_componentTarget = "route";
         public $_executionPosition = "start";
         public $_standAlone = true;
-        
+
         /**
          * Creates a array of default settings
          * @var array
          */
         private $setRoutes;
-        
+
         /**
          * Contain all variables
          * @var array
          */
         static $variables;
-        
-        
+
+
         /**
          * Sets the default settings
          * String Syntax: variable:value/variable:value
@@ -44,13 +44,13 @@
                     $splitDown_2 = explode(":",$route);
                     $this->setRoutes[$splitDown_2[0]] = $splitDown_2[1];
                 }
-                
+
             }
             else {
                 //Error Output: Invalid syntax!
             }
         }
-        
+
         /**
          * Prepare the variables for the final step
          */
@@ -64,51 +64,55 @@
                     unset($this->url_variables[$i]);
                 }
                 else {
-                    $this->url_variables[$key] = $this->url_variables[$i];   
-                    unset($this->url_variables[$i]);                
+                    $this->url_variables[$key] = $this->url_variables[$i];
+                    unset($this->url_variables[$i]);
                 }
                 ++$i;
-            } 
+            }
             return $this->url_variables;
         }
-        
+
         public function _initFunctions() {
             self::$variables = $this->prepareVars();
         }
-        
+
         public function _execute() {
             if(empty(self::$variables) || empty(self::$variables['class'])) {
                 $check = $this->checkIncludeControllerClass(PWEL_ROUTING::$start_controller);
                 if($check) {}
                 else {
                     $check = $this->checkIncludeControllerClass(PWEL_ROUTING::$error_controller);
-                    if(!$check) { return; } 
+                    if(!$check) { return; }
                 }
-                $this->displayController(new $check(),"startController"); 
+                $this->displayController(new $check(),"startController");
                 PWEL_ROUTING::$controllerNotFound = false;
             }
-            else {         
+            else {
                 PWEL_ROUTING::$controllerNotFound = false;
                 $check = $this->checkIncludeControllerClass($this->url_variables['class']);
                 if($check) {}
                 else {
                     $check = $this->checkIncludeControllerClass(PWEL_ROUTING::$error_controller);
                     PWEL_ROUTING::$controllerNotFound = true;
-                    if(!$check) { return; }                 
+                    if(!$check) { return; }
                 }
                 $this->displayController(new $check());
             }
+            /**
+             * Routing executed
+             */
+            PWEL_ROUTING::$routed = true;
         }
 
     /**
      * Loads the method else send to error controller
      * @param class $class
-     * @param string $mode 
+     * @param string $mode
      */
     private function displayController($class,$mode="default") {
         if(method_exists($class, "startup")) {
             $class->startup();
-        }        
+        }
         switch($mode) {
             case "startController":
                 if(method_exists($class, "index")) {
@@ -117,7 +121,7 @@
                 else {
                     // Error Output: No index defined!
                 }
-                break;    
+                break;
             case "default":
                 if(isset($this->url_variables['method']) && method_exists($class, self::$variables['method'])) {
                     $method = $this->url_variables['method'];
@@ -126,20 +130,20 @@
                 else {
                     if(method_exists($class, "index")) {
                         $class->index();
-                    } 
+                    }
                     else {
                         //Error Output: No index defined!
                     }
                 }
                 break;
         }
-        
+
     }
 
     /**
      * Check if class exists include it and return the name or false
      * @param string $class
-     * @return string/false 
+     * @return string/false
      */
     private function checkIncludeControllerClass($class) {
         if(!empty(PWEL_ROUTING::$namespace)) {
@@ -152,7 +156,7 @@
         if(file_exists(PWEL_ROUTING::$relative_path.'app/controller/'.PWEL_ROUTING::$searchResult.$class.'.php')) {
             require_once PWEL_ROUTING::$relative_path.'app/controller/'.PWEL_ROUTING::$searchResult.$class.'.php';
             return $class;
-        }     
+        }
         else {
             return false;
         }
@@ -171,5 +175,5 @@
     //GNU General Public License for more details.
     //
     //You should have received a copy of the GNU General Public License
-    //along with this program.  If not, see <http://www.gnu.org/licenses/>.    
+    //along with this program.  If not, see <http://www.gnu.org/licenses/>.
 }

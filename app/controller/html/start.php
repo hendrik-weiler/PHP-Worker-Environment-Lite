@@ -15,13 +15,13 @@
             }
             $this->display($file);
         }
-        
+
         function autosearch() {
             PWEL_COMPONENT_LAYOUT::disableLayout();
             print "\$this->display(\"autosearchtest\"); <br />He found the file in html/somesubfolder/<p>";
             $this->display("autosearchtest");
         }
-        
+
         function layout() {
             $this->variable = "Hello, im a layout!";
             $pwe = new PWEL_PWE_SUPPORT();
@@ -29,7 +29,7 @@
             print $i->form->open("hallo/du","post")->button("Im a Button!")->close();
 
         }
-        
+
         public function __destruct() {
             PWEL_COMPONENT_LAYOUT::addVariables($this);
         }
