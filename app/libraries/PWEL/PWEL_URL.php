@@ -28,6 +28,28 @@ class PWEL_URL {
         }
         return $realUriVarArray;
     }
+
+    /**
+     * Returns a validated link
+     * @var string
+     * @return string
+    */
+    public function validateLink($file) {
+        $realPhpPath = $_SERVER['PHP_SELF'];
+
+        $realPath = str_replace("index.php", "", $realPhpPath);
+
+        return str_replace("//", "/", $realPath.$file);
+    }
+
+    /**
+     * Redirect to given destination
+     * @var string
+     * @return void
+    */
+    public function redirect($to) {
+        header("Location: ".$this->validateLink($to));
+    }
 }
 
     //PHP Worker Environment Lite - a easy to use PHP framework

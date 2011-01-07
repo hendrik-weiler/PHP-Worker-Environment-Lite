@@ -19,6 +19,10 @@ class test extends PWEL_CONTROLLER {
         $this->display("irgendwas");
     }
     
+    function test() {
+        print '<a href="../eng/start">Test Link!</a>';
+    }
+    
     function sql() {
         $sql = new Sql_Select(new PWEL_SQL());
         $sql->order("id->DESC")

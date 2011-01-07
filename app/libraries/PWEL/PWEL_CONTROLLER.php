@@ -61,7 +61,7 @@ class PWEL_CONTROLLER {
      * @return string
      */
     public function validateCss($file) {
-        $path = $this->doValidation($file);
+        $path = $this->doValidation();
         return '<link rel="stylesheet" href="'.$path.$file.'">'; 
     }
 
@@ -71,7 +71,7 @@ class PWEL_CONTROLLER {
      * @return string
      */    
     public function validateJS($file) {
-        $path = $this->doValidation($file);
+        $path = $this->doValidation();
         return '<script type="text/js" src="'.$path.$file.'"></script>';
     }
     
@@ -79,14 +79,28 @@ class PWEL_CONTROLLER {
      * Returns the correct path
      * @return string
      */
-    private function doValidation($file) {        
+    private function doValidation() {        
         //$projectDir = PWEL_ROUTING::$namespace;
         if(!preg_match("#http(s)?://(www.)?(.*).[a-museum](/)?(.*)?#i",$file)) {
-            while(!file_exists($projectDir.$file)) {
-                $projectDir = "../".$projectDir;
+            $url = new PWEL_URL();
+            $vars = $url->locateUrlVariables();
+            foreach($vars as $i) {
+                $var_difference .= "../";
             }
-            return $projectDir;
+            return $var_difference;
         }
+    }
+ 
+    /**
+     * Returns a validated link
+     * from PWEL_URL
+     * 
+     * @var string
+     * @return string
+    */    
+    public function validateLink($file) {
+        $uri = new PWEL_URL();
+        return $uri->validateLink($file);
     }
 }
 

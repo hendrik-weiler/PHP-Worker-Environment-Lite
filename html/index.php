@@ -15,6 +15,6 @@ PWEL_ROUTING::$autoSearch = true;
 PWEL_ROUTING::$namespace = "html";
 new PWEL_ROUTING(
 new PWEL_COMPONENT_LAYOUT("layout.phtml"),
-new PWEL_COMPONENT_ROUTE("lang:de/class:/method:/param:")
+new PWEL_COMPONENT_ROUTE("class:/method:/param:")
 );
 ?>

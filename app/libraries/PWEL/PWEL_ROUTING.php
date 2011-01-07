@@ -95,6 +95,7 @@ class PWEL_ROUTING extends PWEL_CONTROLLER {
     public function __construct() {
         $this->locateRelativePath();
         $this->getConfig();
+        $this->setHeader();
         $this->initComponents(func_get_args());
         if(!$this->components["route"]) {
            $this->routeCurrentDir(); 
@@ -301,7 +302,19 @@ class PWEL_ROUTING extends PWEL_CONTROLLER {
        $namespace = str_replace(".","",$namespace);
        self::$namespace = $namespace;
     }
-   
+
+    /**
+     * Sets a header
+     */
+    public function setHeader() {
+        if(!self::$config["header"]["charset"])
+            self::$config["header"]["charset"] = "UTF-8";
+        
+        if(!self::$config["header"]["contentType"])
+            self::$config["header"]["contentType"] = "text/html";
+        header('Content-Type: '.self::$config["header"]["contentType"].'; charset='.self::$config["header"]["charset"]);
+    }
+
     /**
      * Browsing subfolders after a specific file
      * @var string $path
