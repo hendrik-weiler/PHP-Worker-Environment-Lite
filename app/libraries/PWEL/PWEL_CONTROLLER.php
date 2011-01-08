@@ -1,14 +1,14 @@
 <?php
 /**
  * PHP Worker Environment Lite - Controller Class
- *
+ * 
  * Managing all controller behaviours
  *
  * @author Hendrik Weiler
  * @package PWEL
  */
 class PWEL_CONTROLLER {
-
+    
     /**
     * Display a file from view folder
     * Variables will be stored in class itself and will be accessable as normal variables
@@ -18,10 +18,10 @@ class PWEL_CONTROLLER {
     *   $this->testVariable = "hello!";
     *   $this->display("outputfile");
     * }
-    *
+    * 
     * Outputfile:
     * <?php print $testVariable.' im a test!';
-    *
+    * 
     * @param string $filename
     */
     public function display($filename) {
@@ -32,7 +32,7 @@ class PWEL_CONTROLLER {
             }
             else {
                 $extension = ".php";
-            }
+            }        
         }
         else {
             $filename .= ".php";
@@ -41,11 +41,11 @@ class PWEL_CONTROLLER {
         if(PWEL_ROUTING::$autoSearch == true) {
             PWEL_ROUTING::autoSearch("app/views/",$filename);
             PWEL_ROUTING::$searchResult = str_replace("app/views/","",PWEL_ROUTING::$searchResult);
-        }
-        //Set & Correct path
+        }  
+        //Set & Correct path 
         $path = PWEL_ROUTING::$relative_path."app/views/".PWEL_ROUTING::$searchResult."{$filename}{$extension}";
         $path = str_replace("//","/",$path);
-        /////////////////////
+        /////////////////////      
         if(file_exists($path)) {
             extract(get_object_vars($this));
             require $path;
@@ -54,7 +54,7 @@ class PWEL_CONTROLLER {
             //Error Output: file doenst exist
         }
     }
-
+    
     /**
      * Returns a validated css link tag
      * @var string
@@ -62,29 +62,38 @@ class PWEL_CONTROLLER {
      */
     public function validateCss($file) {
         $path = $this->validateLink($file);
-        return '<link rel="stylesheet" href="'.$path.'">';
+        return '<link rel="stylesheet" href="'.$path.'">'; 
     }
 
     /**
      * Returns a validated script link tag
      * @var string
      * @return string
-     */
+     */    
     public function validateJS($file) {
         $path = $this->validateLink($file);
         return '<script type="text/js" src="'.$path.'"></script>';
     }
-
+ 
     /**
      * Returns a validated link
      * from PWEL_URL
-     *
+     * 
      * @var string
      * @return string
-    */
+    */    
     public function validateLink($file) {
         $uri = new PWEL_URL();
         return $uri->validateLink($file);
+    }
+
+    /**
+     * Returns a registered object
+     * @param string $name
+     * @return object
+     */
+    public function getRegister($name) {
+        return PWEL_ROUTING::$registeredObjects[$name];
     }
 }
 

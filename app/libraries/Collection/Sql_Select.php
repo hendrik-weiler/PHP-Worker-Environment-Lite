@@ -136,7 +136,7 @@ class Sql_Select {
                 foreach($where as $column => $value) {
                     $value = mysql_real_escape_string($value);
                     if(preg_match("/[0-9]/",$value)) {
-                        $query .= " $column = $value ";
+                        $query .= " $column = '$value' ";
                     }
                     else {
                        $query .= " $column LIKE '$value' "; 
@@ -169,7 +169,7 @@ class Sql_Select {
      * Execute the query and returns a single or multi line 
      * @return array/object
      */   
-    public function query() {
+    public function query() { 
         $query = mysql_query($this->generateQuery(),$this->con->sqlLink);
         if(!$query) {
             return false;
@@ -193,7 +193,7 @@ class Sql_Select {
      * @return bool
      */    
     public function queryString($query) {
-        return $query = mysql_query($query,$this->con->sqlLink);
+        return mysql_query($query,$this->con->sqlLink);
     }
  
     /**

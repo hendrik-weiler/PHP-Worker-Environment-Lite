@@ -1,7 +1,7 @@
 <?php
 /**
  * PHP Worker Environment Lite - Routing Class
- *
+ * 
  * Managing the routing
  *
  * @author Hendrik Weiler
@@ -13,13 +13,13 @@ class PWEL_ROUTING extends PWEL_CONTROLLER {
      * @var string
      */
     static $start_controller;
-
+    
     /**
      * The controller which will be load if the controller doenst exist
      * @var string
      */
     static $error_controller;
-
+    
     /**
      * Set a namespace for getting controllers/views/models from right folder
      * Example:
@@ -28,58 +28,58 @@ class PWEL_ROUTING extends PWEL_CONTROLLER {
      * @var string
      */
     static $namespace;
-
+    
     /**
      * Sets the range of the accessable namespaces by enabled controller search
      * @var array
      */
     static $namespaceRange = array();
-
+ 
     /**
      * If set to true the given controller will be searched in '$namespace / subfolders'
      * @var bool $autoSearch
      * @var string $searchResult
-     */
+     */   
     static $autoSearch = false;
     static $searchResult;
-
+    
     /**
      * Path to current directory
      * @var string
      */
     static $relative_path;
-
+    
     /**
      * All url variables
      * @var string
      */
     private $url_variables;
-
+    
     /**
      * Config informations are stored in it
      * @var array
      */
     static $config = array();
-
-
+    
+    
     /**
      * Path to controller (used in controllersearch method)
      * @var string
      */
-    private $pathToController;
-
+    private $pathToController; 
+    
     /**
      * Array of all components
      * @var array
      */
     private $components = array();
-
+    
     /**
      * Contains the current state of the controller
      * @var bool
      */
     static $controllerNotFound = false;
-
+    
     /**
      * Handles correct function calls at component execution
      * @var array
@@ -88,12 +88,18 @@ class PWEL_ROUTING extends PWEL_CONTROLLER {
         "route" => "routeCurrentDir",
         "display" => "displayController"
     );
-
+    
     /**
      * Checks if the final route function was executed
-     * @var bool
+     * @var bool 
      */
     static $routed = false;
+
+    /**
+     * Contains registered objects
+     * @var objectArray 
+     */
+    static $registeredObjects;
 
     /**
      * Sets relative path and start routing
@@ -101,11 +107,29 @@ class PWEL_ROUTING extends PWEL_CONTROLLER {
     public function __construct() {
         $this->locateRelativePath();
         $this->getConfig();
+        $this->loadAutoInject();
         $this->setHeader();
         $this->initComponents(func_get_args());
         if(!$this->components["route"]) {
-           $this->routeCurrentDir();
+           $this->routeCurrentDir(); 
         }
+    }
+
+    private function loadAutoInject() {
+        include_once self::$relative_path."app/AutoInject.php";
+        $injection = new AutoInject();
+        foreach(get_class_methods("AutoInject") as $function) {
+            if(!method_exists("PWEL_CONTROLLER", $function))
+                $injection->$function();
+        }
+    }
+
+        /**
+     * Registers objects to $registeredObjects
+     * @param object $content
+     */
+    static function register($content) {
+        self::$registeredObjects[strtolower(get_class($content))] = $content;
     }
 
     /**
@@ -124,7 +148,7 @@ class PWEL_ROUTING extends PWEL_CONTROLLER {
                 $this->execComponents($call);
         }
     }
-
+    
     /**
      * Prepare a component type for execution
      * @var string $componentTarget
@@ -151,7 +175,7 @@ class PWEL_ROUTING extends PWEL_CONTROLLER {
     /**
      * Locate the relative path to the current directory and save it
      */
-    private function locateRelativePath() {
+    private function locateRelativePath() {  
         self::$relative_path = $_SERVER["DOCUMENT_ROOT"].$_SERVER['PHP_SELF'];
         self::$relative_path = str_replace("//", "/", self::$relative_path);
         self::$relative_path = str_replace("index.php", "", self::$relative_path);
@@ -168,16 +192,16 @@ class PWEL_ROUTING extends PWEL_CONTROLLER {
             }
         }
     }
-
+ 
     /**
      * Loads the config file
-     *
+     * 
      */
     private function getConfig() {
         if(file_exists(self::$relative_path."app/config.ini"))
         self::$config = parse_ini_file(self::$relative_path."app/config.ini",true);
     }
-
+ 
     /**
      * Execute the components
      * @var string $typeOf
@@ -215,7 +239,7 @@ class PWEL_ROUTING extends PWEL_CONTROLLER {
         }
         ///////////////////////////////////////
     }
-
+    
     /**
      * Checks if the controllers are avaible else send to error controller
      * @return null
@@ -228,9 +252,9 @@ class PWEL_ROUTING extends PWEL_CONTROLLER {
             if($check) {}
             else {
                 $check = $this->checkIncludeControllerClass(self::$error_controller);
-                if(!$check) { return; }
+                if(!$check) { return; } 
             }
-            $this->displayController(new $check(),"startController");
+            $this->displayController(new $check(),"startController"); 
             self::$controllerNotFound = false;
         }
         else {
@@ -240,7 +264,7 @@ class PWEL_ROUTING extends PWEL_CONTROLLER {
             else {
                 $check = $this->checkIncludeControllerClass(self::$error_controller);
                 self::$controllerNotFound = true;
-                if(!$check) { return; }
+                if(!$check) { return; }                 
             }
             $this->displayController(new $check());
         }
@@ -253,12 +277,12 @@ class PWEL_ROUTING extends PWEL_CONTROLLER {
     /**
      * Loads the method else send to error controller
      * @param class $class
-     * @param string $mode
+     * @param string $mode 
      */
     private function displayController($class,$mode="default") {
         if(method_exists($class, "startup")) {
             $class->startup();
-        }
+        }        
         switch($mode) {
             case "startController":
                 if(method_exists($class, "index")) {
@@ -267,7 +291,7 @@ class PWEL_ROUTING extends PWEL_CONTROLLER {
                 else {
                     // Error Output: No index defined!
                 }
-                break;
+                break; 
             case "default":
                 if(isset($this->url_variables[1]) && method_exists($class, $this->url_variables[1])) {
                     $method = $this->url_variables[1];
@@ -276,20 +300,20 @@ class PWEL_ROUTING extends PWEL_CONTROLLER {
                 else {
                     if(method_exists($class, "index")) {
                         $class->index();
-                    }
+                    } 
                     else {
                         //Error Output: No index defined!
                     }
                 }
                 break;
         }
-
+        
     }
 
     /**
      * Check if class exists include it and return the name or false
      * @param string $class
-     * @return string/false
+     * @return string/false 
      */
     private function checkIncludeControllerClass($class) {
         if(!empty(self::$namespace)) {
@@ -302,14 +326,14 @@ class PWEL_ROUTING extends PWEL_CONTROLLER {
         if(file_exists(self::$relative_path.'app/controller/'.self::$searchResult.$class.'.php')) {
             require_once self::$relative_path.'app/controller/'.self::$searchResult.$class.'.php';
             return $class;
-        }
+        }     
         else {
             return false;
         }
     }
-
+    
     /**
-     * This function correct the namespace value
+     * This function correct the namespace value 
      * Example: /html/ -> html/, projectname
      */
     static function correctNamespace() {
@@ -326,7 +350,7 @@ class PWEL_ROUTING extends PWEL_CONTROLLER {
     public function setHeader() {
         if(!self::$config["header"]["charset"])
             self::$config["header"]["charset"] = "UTF-8";
-
+        
         if(!self::$config["header"]["contentType"])
             self::$config["header"]["contentType"] = "text/html";
         header('Content-Type: '.self::$config["header"]["contentType"].'; charset='.self::$config["header"]["charset"]);
