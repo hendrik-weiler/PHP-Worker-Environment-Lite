@@ -118,9 +118,12 @@ class PWEL_ROUTING extends PWEL_CONTROLLER {
     private function loadAutoInject() {
         include_once self::$relative_path."app/AutoInject.php";
         $injection = new AutoInject();
-        foreach(get_class_methods("AutoInject") as $function) {
-            if(!method_exists("PWEL_CONTROLLER", $function))
-                $injection->$function();
+        $methods = get_class_methods("AutoInject");
+        if(is_array($methods)) {
+            foreach($methods as $function) {
+                if(!method_exists("PWEL_CONTROLLER", $function))
+                    $injection->$function();
+            }
         }
     }
 
