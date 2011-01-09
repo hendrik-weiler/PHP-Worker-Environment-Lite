@@ -21,7 +21,7 @@ class AutoInject extends PWEL_CONTROLLER {
     function checkLogin() {
         $login = $this->getRegister("sql_login");
 
-        $session = new PWEL_SESSION_COOKIE("session");
+        $session = new PWEL_COOKIE("session");
         $vars = $session->getCookieVariables();
 
         if($login->CheckLogin($vars["SID"])) {
