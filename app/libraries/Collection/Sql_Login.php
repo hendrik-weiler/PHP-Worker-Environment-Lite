@@ -83,6 +83,11 @@ class Sql_Login {
      * @return bool/string
      */
     public function LoginAttempt($id,$pw) {
+        if($this->validateInput($id) == false
+        || $this->validateInput($pw) == false) {
+            return false;
+        }
+
         session_start();
         $sqlS = new Sql_Select($this->connectorClass);
         $sql = new Sql_Update($sqlS);
@@ -147,6 +152,32 @@ class Sql_Login {
                 $this->column_session => $session
             ))->query();
         return $result;
+    }
+
+    /**
+     * Checks if the string is valid
+     *
+     * @param string $input
+     * @return bool
+     */
+    private function validateInput($input) {
+        $test_1 = preg_match("#(union|select|from|;|drop|like|--|shutdown|truncate|delete|update|insert|%)#i", $input);
+        $search = array(chr(0),chr(1),chr(2),
+                        chr(3),chr(4),chr(5),
+                        chr(6),chr(7),chr(8),
+                        chr(11),chr(12),chr(14),
+                        chr(15),chr(16),chr(17),
+                        chr(18),chr(19));
+        $test_2 = str_replace($search,null,$input);
+        $test_3 = preg_match("#(?:%E(?:2|3)%8(?:0|1)%(?:A|8|9)\w)#i", $input);
+        if($test_1
+        || $test_2 != $input
+        || $test_3) {
+            return false;
+        }
+        else {
+            return true;
+        }
     }
 }
 ?>
