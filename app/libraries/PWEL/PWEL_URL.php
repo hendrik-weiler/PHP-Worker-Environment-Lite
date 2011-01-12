@@ -18,15 +18,17 @@ class PWEL_URL {
         $realPhpPath = $_SERVER['PHP_SELF'];
         
         $realPhpPathSearch = str_replace("index.php", "", $realPhpPath);
-        
-        $realUriVar = str_replace($realPhpPathSearch, "", $realUriPath);
+        if($realPhpPathSearch != "/")
+            $realUriVar = str_replace($realPhpPathSearch, "", $realUriPath);
+        else
+            $realUriVar = $realUriPath;
         
         $realUriVarArray = explode("/", $realUriVar);
         for($i=0;$i<count($realUriVarArray);++$i) {
             if(empty($realUriVarArray[$i])) 
                 unset($realUriVarArray[$i]);
         }
-        return $realUriVarArray;
+        return array_values($realUriVarArray);
     }
 
     /**
