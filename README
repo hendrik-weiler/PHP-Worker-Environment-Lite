@@ -1,19 +1,32 @@
 PHP Worker Environment Lite 
-Version: 1.04
+Version: 1.05
 
 About:
 ----------------------------------------
-If you want a 3 Words configuration before you can start
-developing this framework is the right choice. It contains mvc & hmvc
+If you dont want to configurate before you can start
+developing, this framework is the right choice. It contains mvc & hmvc
 optional you can use a layout or create a custom routing. You can add
 every standalone libraries aslong you give the command to load in index.php.
-You can create own components which can be included before or after the routing 
+You can create own components/plugins which can be included before or after the routing
 or the display process.
 
 Its made for those who want a easy start ! 
 
 Channelog:
 ----------------------------------------
+V 1.05
+*Restructuring:
+-Seperated PWEL_ROUTING in PWEL and PWEL_COMPONENTS, PWEL_ROUTING
+-Interfaces for plugins and components
+*Added:
+-Plugin-system
+-1 unfinished plugin(PWEL_PLUGIN_HTML_HELPER)
+-PWEL_COMPONENT_ROUTE can now handling anykind of routes
+-PWEL_COMPONENT_ROUTE is able to accept specific params
+-PWEL got cofigRouting function, replace setting static variables
+*Bugfixes:
+-PWEL_COMPONENT::validateJs() works now (type was text/js)
+
 V 1.04
 -Added PWEL_COMPONENT_ROUTE
 -Modified & Improved component system
