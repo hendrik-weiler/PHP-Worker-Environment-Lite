@@ -8,6 +8,12 @@
  * @package PWEL
  */
 class AutoInject extends PWEL_CONTROLLER {
+    function translation() {
+        PWEL_COMPONENT_ROUTE::$acceptRange = array(
+            "html" => array("de","eng")
+        );
+    }
+    
     function configLogin() {
          $login = new Sql_Login(new PWEL_SQL());
          $login->configColumnTable("accounts",array(
@@ -15,7 +21,7 @@ class AutoInject extends PWEL_CONTROLLER {
                 "password" => "password",
                 "session" => "session"
          ));
-         PWEL_ROUTING::register($login);
+         PWEL::register($login);
     }
 
     function checkLogin() {
@@ -30,7 +36,7 @@ class AutoInject extends PWEL_CONTROLLER {
         else {
             $login->loginStatus = false;
         }
-        PWEL_ROUTING::register($login);
+        PWEL::register($login);
     }
 }
 ?>

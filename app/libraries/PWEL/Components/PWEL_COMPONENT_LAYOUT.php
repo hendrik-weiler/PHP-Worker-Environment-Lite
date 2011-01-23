@@ -7,7 +7,7 @@
      * @author Hendrik Weiler
      * @package PWEL_COMPONENT
      */
-    class PWEL_COMPONENT_LAYOUT extends PWEL_CONTROLLER {
+    class PWEL_COMPONENT_LAYOUT extends PWEL_CONTROLLER implements PWEL_COMPONENT_INTERFACE {
         /**
          * Action variables which use the routing class
          * @var string $_componentTarget
@@ -66,10 +66,15 @@
          * Execute the component
          */
         public function _execute() {
+            $routing = new PWEL_ROUTING();
+            $relativePath = $routing->requestRelativePath();
             if(self::$visible == true && PWEL_ROUTING::$controllerNotFound == false)  {
-                extract((array)self::$variables);
                 PWEL_ROUTING::autoSearch("app/views/",self::$file);
-                require_once PWEL_ROUTING::$relative_path.PWEL_ROUTING::$searchResult.self::$file;
+                $path = $relativePath.PWEL_ROUTING::$searchResult.self::$file;
+                if(file_exists($path))
+                    $this->display (self::$file,(array)self::$variables);
+                else
+                    throw new Exception ("File: <i>$path</i> doenst exist.<br /> <strong>Using 'PWEL_ROUTING::\$namespaceRange' and missing adding directory to file?</strong>");
             }
         }
        

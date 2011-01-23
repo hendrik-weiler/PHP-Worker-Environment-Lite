@@ -12,21 +12,19 @@ class test extends PWEL_CONTROLLER {
         );
     }
     
-    function index() {
-        $userDB = new userDB();
-        $userDB->getDB();
-        $this->weitererTest = "Testmännchen";
-        $this->display("irgendwas");
-    }
+
     
-    function test() {
+    function test2() {
+        PWEL_COMPONENT_LAYOUT::enableLayout();
         print '<a href="../eng/start">Test Link!</a>';
+        $x = new PWEL_URL();
+        var_dump($x->locateUrlVariables(),PWEL_COMPONENT_ROUTE::$variables);
     }
     
     function sql() {
         $sql = new Sql_Select(new PWEL_SQL());
         $sql->order("id->DESC")
-            ->from("ee_category")
+            ->from("gallery")
             ->query();
         foreach($sql->toForeach()->result as $object) {
             $item[] = new Items_Table_Row($object);

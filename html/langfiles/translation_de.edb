@@ -1,0 +1,5 @@
+id:key;1|keyword|translation
+1|welcome|Willkommen in der PHP Worker Environment Lite version
+2|subtext|Um das Framework zu konfigurieren, müssen sie index.php und config.ini editieren
+3|examples|Hier ist eine Liste von Beispielen:
+5|noexamples|Es sind keine Beispiele vorhanden bis jetzt.

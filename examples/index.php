@@ -19,13 +19,14 @@ $pwel->configRouting(array(
     "start" => "start",
     "error" => "error",
     "autosearch" => true,
-    "namespace" => "html",
+    "namespace" => "examples",
     "namespacerange" => array(
-        "html","layout"
+        "examples","layout"
     )
 ));
 $pwel->initialize(
-             new PWEL_COMPONENT_ROUTE("lang:eng/class:/method:/param:")
+             new PWEL_COMPONENT_LAYOUT("examples.phtml"),
+             new PWEL_COMPONENT_ROUTE("class:/method:/param:")
              );
 //////////////////////////////////
 ///      DEBUG-Mode/Helper     ///

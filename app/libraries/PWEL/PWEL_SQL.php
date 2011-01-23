@@ -30,11 +30,11 @@ class PWEL_SQL {
      * 
      * Receive all sql configurations and connect 
      */
-    public function __construct() {            
-        $this->host = PWEL_ROUTING::$config["sql"]["server"];
-        $this->id = PWEL_ROUTING::$config["sql"]["username"];
-        $this->pw = PWEL_ROUTING::$config["sql"]["password"];
-        $this->dbname = PWEL_ROUTING::$config["sql"]["dbname"];
+    public function __construct() {
+        $this->host = PWEL::$config["sql"]["server"];
+        $this->id = PWEL::$config["sql"]["username"];
+        $this->pw = PWEL::$config["sql"]["password"];
+        $this->dbname = PWEL::$config["sql"]["dbname"];
         
         $this->connect();
     }
