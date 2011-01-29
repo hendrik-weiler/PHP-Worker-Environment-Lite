@@ -3,3 +3,4 @@ id:key;1|keyword|translation
 2|subtext|Um das Framework zu konfigurieren, müssen sie index.php und config.ini editieren
 3|examples|Hier ist eine Liste von Beispielen:
 5|noexamples|Es sind keine Beispiele vorhanden bis jetzt.
+6|documentation|Dokumentation

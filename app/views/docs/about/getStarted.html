@@ -1,0 +1,97 @@
+<div class="legend">
+<div class="smalltitle">Legend</div>
+  <ul>
+    <li><a href="#install">Installation</a></li>
+    <li><a href="#indexf">Index file</a></li>
+  </ul>
+</div>
+<div class="chaptertitle"><a name="install">Installation</a></div>
+<p><strong><em>First Step:</em></strong></p>
+<p>Download the <strong>Php Worker Environment Lite</strong> from <a href="https://github.com/diddlside/PHP-Worker-Environment-Lite">github</a> or <a href="http://test.rpg-stars.de/pwel/pwel.rar">here</a> and unpack it to  any folder like <em>/xampp/htdocs/</em></p>
+<p><strong><em>Second Step:</em></strong></p>
+<p>Open the config.ini file in subfolder <em>app</em></p>
+<pre class="code">; Optional
+[pwel]
+status = "development" ; Standard = production
+
+; Optional
+[header]
+charset = "UTF-8"
+contentType = "text/html"
+
+; Optional, Must have just if you wanna use mySQL
+[sql]
+server = "localhost"
+username = "root"
+password = ""
+dbname= "16102010"</pre>
+<p>Like you see all in the cofiguration file is optional. So you <strong>aren't forced</strong> to configurate this file to get started.</p>
+<div class="chaptertitle"><a name="indexf">Index file</a></div>
+<p>&nbsp;</p>
+<pre class="sh_php code">//////////////////////////////////
+///Autoloading of the libraries///
+//////////////////////////////////
+require_once '../app/libraries/Class_Auto_Load.php';
+//Loading of PWEL classes
+new Class_Auto_Load('../app/libraries/PWEL');
+new Class_Auto_Load('../app/libraries/PWEL/Interfaces');
+new Class_Auto_Load('../app/libraries/PWEL/Components');
+new Class_Auto_Load('../app/libraries/PWEL/Plugins');
+//Loading of other Classes(optional)
+new Class_Auto_Load('../app/models/html');
+new Class_Auto_Load('../app/libraries/Collection');
+//////////////////////////////////
+///    Initializing Framewok   ///
+//////////////////////////////////
+$pwel = new PWEL();
+$pwel->configRouting(array(
+    "start" => "start",
+    "error" => "error",
+    "autosearch" => true,
+    "namespace" => "html",
+    "namespacerange" => array(
+        "html","layout"
+    )
+));
+$pwel->initialize(
+             new PWEL_COMPONENT_ROUTE("lang:eng/class:/method:/param:")
+             );
+//////////////////////////////////
+///      DEBUG-Mode/Helper     ///
+//////////////////////////////////
+//PWEL_ANALYZER::viewInfo();</pre>
+<p><strong><br>
+You can configurate in the index file various things:</strong></p>
+<p><strong>Class_Auto_Load($path)</strong><br>
+The classis able to load single directories into the include path and make the classes callable.</p>
+<p><strong>PWEL function configRouting(array)</strong><br> 
+You have various options to configurate the routing process like setting up</p>
+<ul>
+  <li>start (autoconfig sets to <em>startController</em>)</li>
+  <li>error (autoconfig sets to <em>errorController</em>)</li>
+  <li>autosearch (standard <em>false</em>)</li>
+  <li>namespace (standard <em>empty</em>)</li>
+  <li>namespaceRange (standard <em>empty</em>)</li>
+</ul> 
+<p><strong>Start</strong><br>
+Sets the controller you want to display at startup</p>
+<p><strong>Error</strong><br>
+Sets the error controller</p>
+<p><strong>Autosearch</strong><br>
+Searched automaticly through all directories and subdirectories to the destinated controller</p>
+<p><strong>Namespace</strong><br>
+Sets a namespace in this case is the namespace a directory like &quot;html&quot;.</p>
+<blockquote>
+  <p>
+    <em>Example:</em><br>
+  If the namespace is &quot;html&quot; it would search in &quot;app/controller/html/&quot; or &quot;app/view/html/&quot;.<br>
+  So you can seperate projects or projects parts from each other.</p>
+</blockquote> 
+<p><strong>Namespace Range</strong><br> 
+Contains an array of directories which will be excluded by autosearch to limit the search do destinated folders.</p>
+<p><strong>PWEL function initialize(<em>component objects</em>)<br>
+</strong>In the initializing function you can add components as parameters</p>
+<p><strong>PWEL function plugin(<em>plugin object</em>)</strong><br>
+You can add a plugin with a function</p>
+<p><strong>PWEL Analyzer class</strong><br>
+Display different informations about pwel </p>

@@ -1,0 +1,82 @@
+<div class="legend">
+<div class="smalltitle">Legend</div>
+  <ul>
+    <li><a href="#howto">How to use SQL in PWEL</a></li>
+    <li><a href="#pwelsql">PWEL_SQL</a></li>
+    <li><a href="#howtoadd">How to add a Row</a></li>
+    <li><a href="#howtodelete">How to delete a Row</a></li>
+    <li><a href="#howtoupdate">How to change a Row</a></li>
+    <li><a href="#howtoselect">How to select</a></li>
+  </ul>
+</div>
+<div class="chaptertitle"><a name="howto">How to use SQL in PWEL</a></div>
+<p><strong>PWEL itself got no SQL classes</strong>.</p>
+<p> But from <a href="https://github.com/diddlside/My-Class-Collection/tree/master/class">here</a> you can use the SQL package or any other <em>standalone</em> class which can work with PWEL_SQL.</p>
+<p>Example:
+<pre class="sh_php code">
+//Creates a new instane of Sql_login and use as 'connector class' PWEL_SQL
+$login = new Sql_Login(new PWEL_SQL());
+ $login->configColumnTable("accounts",array(
+        "username" => "username",
+        "password" => "password",
+        "session" => "session"
+ ));</pre>
+</p>
+<div class="chaptertitle"><a name="pwelsql" id="pwelsql">PWEL_SQL</a></div> 
+<p>This class is a 'connector class' specially made for the <a href="https://github.com/diddlside/My-Class-Collection/tree/master/class">Sql package</a>. </p>
+<p>It does not more than getting all sql infos from config.ini and connect to db.</p>
+<div class="chaptertitle"><a name="howtoadd" id="howtoadd">How to add a Row</a></div>
+<p>Example:
+<pre class="sh_php code">
+$select = new Sql_Select(new PWEL_SQL());
+$select->from("accounts");
+//Creating a new instance with pwel_sql connector class
+$add = new Sql_Add($select);
+//add values and add finally the row into the table is given from $select
+$add->addValues(array("ID"=>2,"username"=>"hallo","passwort"=>"abc123"))
+    ->add();</pre>
+</p>
+<div class="chaptertitle"><a name="howtoadd" id="howtodelete">How to delete a Row</a></div>
+<p>Example:
+<pre class="sh_php code">
+$select = new Sql_Select(new PWEL_SQL());
+$select->from("rpgmarket_coins")->where(array("ID"=>1))->query();
+//Creating a new instance with pwel_sql connector class
+$delete = new Sql_Delete($select);
+//delete the selected row in $select
+$delete->delete();</pre>
+</p>
+<div class="chaptertitle"><a name="howtoadd" id="howtoupdate">How to change a Row</a></div>
+<p>Example:<pre class="sh_php code">
+$sql = new Sql_Select(new PWEL_SQL());
+$sql->order("id->DESC")
+    ->from("accounts")
+    ->where(array("ID"=>1))
+    ->query();
+//Creating a new instance with pwel_sql connector class
+$update = new Sql_Update($sql);
+//select table accounts and change values id=10 and username=something
+//where username=anything
+$update->table("accounts")
+             ->changeValues(array(
+             "ID"=>10,"username"=>"something"
+             ))
+             ->where(array("username"=>"anything"))
+//peform an update
+        ->update();</pre></p>
+<div class="chaptertitle"><a name="howtoadd" id="howtoselect">How to select</a></div>
+Example:<pre class="sh_php code">
+//Creating a new instance with pwel_sql connector class
+$sql = new Sql_Select(new PWEL_SQL());
+//Order after id method desc from table gallery
+$sql->order("id->DESC")
+    ->from("gallery")
+    ->query();
+//convert result to foreachable looping
+foreach($sql->toForeach()->result as $object) {
+    $item[] = new Items_Table_Row($object);
+}   
+
+//output result
+var_dump($item); 
+</pre>

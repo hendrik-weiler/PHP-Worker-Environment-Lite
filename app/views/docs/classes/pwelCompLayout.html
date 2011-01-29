@@ -1,0 +1,76 @@
+<div class="legend">
+<div class="smalltitle">Legend</div>
+  <ul>
+    <li><a href="#descrip">Description</a></li>
+    <li><a href="#functions">Functions</a></li>
+    <li><a href="#addVar">addVariables()</a></li>
+    <li><a href="#disableLayout">disableLayout()</a></li>
+    <li><a href="#enableLayout">enableLayout()</a></li>   
+  </ul>
+</div>
+<div class="chaptertitle"><a name="descrip">Description</a></div> 
+<p> Making possible set a layout.</p>
+<p>Example:
+<pre class="sh_php code">
+//Create a instance with layoutfile given as parameter
+new PWEL_COMPONENT_LAYOUT("layoutfile.php");
+</pre></p>
+<div class="chaptertitle"><a name="functions">Functions</a></div>
+<ul>
+  <li><a href="#addVar">addVariables</a> Adds variables by displaying the layout</li>
+  <li><a href="#disableLayout">disableLayout</a> Disables the layout</li>
+  <li><a href="#enableLayout">enableLayout</a> Enables the layout</li>
+</ul>
+<div class="chaptertitle"><a name="addVariables" id="addVariables">addVariables()</a></div>
+<blockquote><em>Description:</em><br />
+* Adds all variables which will be used in the layout<br />
+* @var object/array $variables</blockquote>
+<pre class="sh_php code">
+class start extends PWEL_CONTROLLER {
+    function index() {
+        //Creates variables
+        $this->varNumberOne = "im a test";
+        $this->varNumberTwo = "im another test";
+    }
+    
+    public function __destruct() {
+        //They will be added on the displaying process
+        PWEL_COMPONENT_LAYOUT::addVariables($this);
+    }
+}
+</pre>
+</p>
+<div class="chaptertitle"><a name="disableLayout" id="disableLayout">disableLayout()</a></div>
+<blockquote><em>Description:</em><br />
+* Disables the function on controller method</blockquote>
+<pre class="sh_php code">
+class start extends PWEL_CONTROLLER {
+    function index() {
+        //Disable the layout
+        PWEL_COMPONENT_LAYOUT::disableLayout();
+        
+        //Display other stuff
+        $this->display("otherstuff");
+    }
+}
+</pre>
+</p>
+<div class="chaptertitle"><a name="disableLayout" id="disableLayout">disableLayout()</a></div>
+<blockquote><em>Description:</em><br />
+* Enables the function on controller method</blockquote>
+<pre class="sh_php code">
+class start extends PWEL_CONTROLLER {
+    function index() {
+        //Disable the layout
+        PWEL_COMPONENT_LAYOUT::disableLayout();
+        
+        //Display other stuff
+        $this->display("otherstuff");
+        
+        //Enable the layout
+        //This isnt a good situation but this method exist
+        PWEL_COMPONENT_LAYOUT::enableLayout();        
+    }
+}
+</pre>
+</p>

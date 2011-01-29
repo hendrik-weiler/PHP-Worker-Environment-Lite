@@ -1,0 +1,132 @@
+* {
+    padding: 0px;
+    margin: 0px;
+}
+
+body {
+    background: #3399cc;
+}
+
+.title {
+    border-bottom:3px solid #003366;
+    background: #006699;
+    color: white;
+    font-weight: bold;
+    font-size: 25px;
+    padding: 3px;
+    text-align: center;
+}
+a:visited {
+    color: blue;
+    text-decoration: underline;
+}
+.smalltitle {
+    border-bottom:3px solid #003366;
+    background: #006699;
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+    padding: 3px;
+    text-align: center;
+}
+
+.chaptertitle {
+    border-bottom:3px solid #003366;
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+    padding: 3px;
+    text-align: center;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+/*   Tutorial List  */
+.list {
+  border: 2px solid #DDD;
+  background: silver;
+  width: 25%;
+  float: left;
+}
+
+.list ul {
+    padding: 5px;
+    margin: 0px;
+}
+
+.list li {
+    list-style: none;
+}
+
+.list li a {
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+p {
+    padding: 4px;
+}
+
+blockquote {
+    margin-left: 25px;
+    border: 1px solid #EEE;
+    background: #DDD;
+    width: 60%;
+}
+
+blockquote em {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.list {
+  border: 2px solid #DDD;
+  background: silver;
+  width: 25%;
+  float: left;
+}
+
+/*   Legend  */
+.legend {
+  background: #DDD;
+  width: 200px;
+  margin: 6px;
+}
+
+.legend ul {
+    padding: 5px;
+}
+
+.legend li {
+    list-style: none;
+}
+
+.legend li a {
+    color: black;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+
+.code {
+    padding: 6px;
+    width: 60%;
+}
+
+.content {
+    border: 2px solid #CCC;
+    background: silver;
+    float: right;
+    width: 70%;
+    color: black;
+}
+
+.padding {
+    padding: 5px;
+}
+
+ul {
+    padding-left: 15px;
+    margin-left: 15px;
+}

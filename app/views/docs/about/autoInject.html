@@ -1,0 +1,49 @@
+<div class="legend">
+<div class="smalltitle">Legend</div>
+  <ul>
+    <li><a href="#whatitis">What it is</a></li>
+    <li><a href="#whatitcan">What it can</a></li>
+  </ul>
+</div>
+<div class="chaptertitle"><a name="whatitis">What it is</a></div> 
+<p>AutoInject is located in the<em> app</em> directory and<strong> loads before the controller all function inside of it.</strong></p>
+<p>Example of the possibilities of AutoInjection in PWEL<pre class="sh_php code">class AutoInject extends PWEL_CONTROLLER {
+    function translation() {
+        PWEL_COMPONENT_ROUTE::$acceptRange = array(
+            "html" => array("de","eng")
+        );
+    }
+    
+    function configLogin() {
+         $login = new Sql_Login(new PWEL_SQL());
+         $login->configColumnTable("accounts",array(
+                "username" => "idColumn",
+                "password" => "pwColumn",
+                "session" => "sessColumn"
+         ));
+         PWEL::register($login);
+    }
+
+    function checkLogin() {
+        $login = $this->getRegister("sql_login");
+
+        $session = new PWEL_COOKIE("session");
+        $vars = $session->getCookieVariables();
+
+        if($login->CheckLogin($vars["SID"])) {
+            $login->loginStatus = true;
+        }
+        else {
+            $login->loginStatus = false;
+        }
+        PWEL::register($login);
+    }
+}</pre>&nbsp;</p>
+<div class="chaptertitle"><a name="whatitcan" id="whatitcan">What it can</a></div>
+<ul>
+  <li>  You can let it extends PWEL_CONTROLLER
+  and so <em>validate links or display files</em></li>
+  <li>Building a <strong>translation extension</strong> like in <strong>example above</strong></li>
+  <li>Building <strong>login checkups and configuration</strong></li>
+  <li>and any other possible way to use autoloading before real startup...</li>
+</ul>

@@ -1,0 +1,105 @@
+<div class="legend">
+<div class="smalltitle">Legend</div>
+  <ul>
+    <li><a href="#dirstructure">Directory structure of PWEL</a></li>
+    <li><a href="#system">System of PWEL</a></li>
+    <li><a href="#classes">Classes of PWEL</a></li>
+  </ul>
+</div>
+<div class="chaptertitle"><a name="dirstructure">Directory structure of PWEL</a></div>
+<ul>
+  <li>pwel</li>
+  <ul>
+    <li>app</li>
+    <ul>
+      <li>models</li>
+      <li>views</li>
+      <li>controller</li>
+      <li>libraries</li>
+      <li>AutoInject.php</li>
+      <li>config.ini</li>
+    </ul>
+    <li>html</li>
+    <ul>
+      <li>.htaccess</li>
+      <li>index.php</li>
+    </ul>
+  </ul>
+</ul>
+<p><br />
+  <strong>app Folder </strong><br />
+Contains all needed data for the framework</p>
+<blockquote>
+  <p><strong>models Folder</strong><br />
+    Contains all models for the framework(isnt as a mere folder since all classes will be autoloaded in index file)
+  </p>
+  <p><strong>views Folder</strong><br /> 
+    Contains all files which can be displayed in a controller</p>
+  <p><strong>controller Folder</strong><br />
+    Contains all controller classes
+  </p>
+  <p><strong>libraries Folder</strong><br />
+  Contains PWEL itself and various other <em>standalone classes </em></p>
+  <p><strong>AutoInject.php</strong><br />
+  This is a class where all methods will be executed <em>before</em> controller startup</p>
+  <p><strong>config.ini</strong><br />
+  The file where much <em>optional</em> configuratiosn can be done</p>
+</blockquote>
+<p><strong>html Folder</strong><br />
+Could have any other possible name aslong .htaccess and index file is in it</p>
+<blockquote>
+  <p><strong>.htaccess</strong><br />
+    Needed for correct routing</p>
+  <p><strong>index.php</strong><br />
+    Contains configuration and startup from PWEL
+  </p>
+</blockquote>
+<div class="chaptertitle"><a name="system">System of PWEL</a></div>
+<p><br />
+  The <strong>Php Worker Environment Lite</strong> is based on <em>MVC</em> and is able to do <em>HMVC</em> and <em>mutli project manamgent/project parting</em>.</p>
+<p><strong>MVC(Model/View/Controller)</strong><br />
+This system allows to code a structured site</p>
+<p><br /> 
+  <strong>HMVC(Hirachical Model/View/Controller)</strong><br />
+  Through the autosearch option the framework will browse through all directories in controller/views and use the destinated file</p>
+<p><br />
+  <strong>Multi project management/project parting</strong><br />
+  You can create as much projects you want or seperating it by creating a folder and put a configurated index file and the .htaccess in it.<br />
+You use a new namespace for every new part or project to seperate them from each other.  </p>
+<div class="chaptertitle"><a name="classes" id="classes">Classes of PWEL</a></div> 
+<p>All classes of PWEL are <strong><em>standalone classes</em></strong> and so you can call them everywhere. </p>
+<blockquote>
+  <p><em>Example:</em>
+  <pre class="sh_php code">
+$pc = new PWEL_CONTROLLER();
+$pr = new PWEL_ROUTING();
+if($pc->displayExists($param.".html"))
+    $pc->display($param.".html");
+else
+    $pr->displayError();</pre>
+  </p>
+</blockquote> 
+<strong>List of main classes</strong>
+<blockquote>
+  <p><strong>PWEL class</strong><br />
+  Starts the framework and got else nothing really interesting.</p>
+  <p><strong>PWEL_CONTROLLER class</strong><br />
+    Contains various function for the controllers like</p>
+  <ul>
+    <li>display($filename,(optional)$variables)</li>
+    <li>displayExists($filename)</li>
+    <li>validateCss($filename)</li>
+    <li>validateJS($filenameOrUrl)</li>
+    <li>validateLink($path)</li>
+  </ul>
+  <p><strong>PWEL_ROUTING class</strong><br />
+    Handles the routing process. You can get some useful informations from it like</p>
+  <ul>
+    <li>autoSearch($path,$file)</li>
+    <li>displayController($class,(optional)$mode)</li>
+    <li>requestRelativePath()</li>
+  </ul>
+  <p><strong>PWEL_URL class</strong><br />
+    Handles parameter behaviours and redirects
+  </p>
+</blockquote>

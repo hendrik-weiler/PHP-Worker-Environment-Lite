@@ -1,1 +1,0 @@
-<span style="background: red; color:white;">Im a autosearched file !</span>

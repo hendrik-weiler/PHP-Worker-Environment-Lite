@@ -1,0 +1,39 @@
+<div class="legend">
+<div class="smalltitle">Legend</div>
+  <ul>
+    <li><a href="#descrip">Description</a></li>
+    <li><a href="#functions">Functions</a></li>   
+  </ul>
+</div>
+<div class="chaptertitle"><a name="descrip">Description</a></div> 
+<p> Advanced component for routing.<br />
+Making custom routes possible.</p>
+<p>Example:
+<pre class="sh_php code">
+//Syntax = key:startvalue/key:startvalue
+//For example this site your viewing at uses just
+//the 'param' key with startvalue 'getStarted'
+new PWEL_COMPONENT_ROUTE("lang:eng/class:/method:/param:");
+
+//Displays all variables similiar to PWEL_URL's locateUrlVariables()
+//but here the array got the key's you have given as parameter
+//by creating the instance
+var_dump(PWEL_COMPONENT_ROUTE::$variables)
+
+// Contains a array of accepting redirections
+// Example:
+// lang default = eng
+// The lang definitions are "de" and "eng"
+// If someone try to look for "ita" he would be redirected to "eng"
+// but with "de" and "eng" aswell
+//
+// With the range which can be set, the component accepting
+// "de" or "eng"
+// Scheme:
+// array( $namespace = array($param,$param,$param,$param))
+PWEL_COMPONENT_ROUTE::$acceptRange = array(
+  "de","eng"
+);
+</pre></p>
+<div class="chaptertitle"><a name="functions">Functions</a></div>
+<strong>This class have no public functions to use.</strong>

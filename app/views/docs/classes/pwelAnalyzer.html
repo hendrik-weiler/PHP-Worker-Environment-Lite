@@ -1,0 +1,30 @@
+<div class="legend">
+<div class="smalltitle">Legend</div>
+  <ul>
+    <li><a href="#descrip">Description</a></li>
+    <li><a href="#functions">Functions</a></li>
+    <li><a href="#viewInfo">viewInfo()</a></li>
+  </ul>
+</div>
+<div class="chaptertitle"><a name="descrip">Description</a></div> 
+<p> This class contains lots of data for debugging.</p>
+<div class="chaptertitle"><a name="functions">Functions</a></div>
+<ul>
+  <li><a href="#viewInfo">viewInfo</a> Shows informations about PWEL</li>
+</ul>
+<div class="chaptertitle"><a name="addVar" id="addVar">viewInfo()</a></div>
+<blockquote><em>Description:</em><br />
+* Output all infos about pwel</blockquote>
+Example:
+<pre class="sh_php code">
+from index.php
+....
+....
+
+//////////////////////////////////
+///      DEBUG-Mode/Helper     ///
+//////////////////////////////////
+//This line below is normally commented
+//It will show only infos if you set in config.ini status to 'development'
+PWEL_ANALYZER::viewInfo();
+</pre>

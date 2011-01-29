@@ -3,3 +3,4 @@ id:key;1|keyword|translation
 2|subtext|You can configure in the index.php and config.ini the framework.
 4|examples|A list of examples:
 6|noexamples|No examples until now.
+6|documentation|Documentation

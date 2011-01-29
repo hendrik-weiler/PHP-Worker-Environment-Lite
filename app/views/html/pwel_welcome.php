@@ -2,11 +2,7 @@
 <head>
 <title>PHP Worker Environment Lite</title>
 <style type="text/css">
-.welcometext {
-    margin: 0 14% auto;
-}
 .subtext {
-    margin:0 26% auto;
     font-size:1.2em;
 }
 .lang {
@@ -27,36 +23,38 @@
     text-decoration: none;
 }
 .examples {
-    margin: 0 35% auto;
+    margin: 0 20% auto;
     text-align: center;
     background: #DDD;
     border: 2px dotted black;
     padding: 7px;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
+    -o-border-radius: 10px;
     border-radius: 10px;
+}
+.centering {
+    text-align: center;
+}
+ul {
+    padding: 0;
+    margin: 0;
+}
+a {
+    color: blue;
+    text-decoration: none;
+}
+a:visited {
+    color: blue;
+    text-decoration: none;
 }
 </style>
 </head>
 <body>
-    <div class="lang"><?php print $lang; ?></div>
-<div class="welcometext"><h1><?php print $tr->translate("welcome"); ?></h1></div>
-<div class="subtext"><?php print $tr->translate("subtext"); ?></div>
-<div class="examples">
-<?php
-    print $tr->translate("examples");
-    print "<ul>";
-    if(is_array($examples)) {
-        
-        foreach($examples as $ex) {
-            print '<li><a href="'.$ex["link"].'">'.$ex["name"].'</a></li>';
-        }
-    }
-    else {
-        print $tr->translate("noexamples");
-    }
-    print "</ul>";
-?>
+    <div class="lang"><?php $pc = new PWEL_CONTROLLER(); print $lang." | "; print ' <a href="'.$pc->validateLink("../docs").'">'.$tr->translate("documentation").'</a>'; ?></div>
+<div class="centering">
+    <div><h1><?php print $tr->translate("welcome"); ?></h1></div>
+    <div class="subtext"><?php print $tr->translate("subtext"); ?></div>
 </div>
 </body>
 </html>

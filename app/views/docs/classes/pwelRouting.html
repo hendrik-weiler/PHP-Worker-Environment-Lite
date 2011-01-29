@@ -1,0 +1,48 @@
+<div class="legend">
+<div class="smalltitle">Legend</div>
+  <ul>
+    <li><a href="#descrip">Description</a></li>
+    <li><a href="#functions">Functions</a></li>
+    <li><a href="#autoSearch">autoSearch()</a></li>
+    <li><a href="#displayController">displayController()</a></li>
+    <li><a href="#displayError">displayError()</a></li>
+  </ul>
+</div>
+<div class="chaptertitle"><a name="descrip">Description</a></div> 
+<p> The main class of the framework. Anyway it have just less function which can be used during coding.
+</p>
+<div class="chaptertitle"><a name="functions">Functions</a></div>
+<ul>
+  <li><a href="#autoSearch">autoSearch</a> Search after files meanwhile not entering directories which are not in PWEL_ROUTING::$namespaceRange</li>
+  <li><a href="#displayController">displayController</a> Display a controller</li>
+  <li><a href="#displayError">displayError</a> Display the error controller</li>
+</ul>
+<div class="chaptertitle"><a name="autoSearch" id="autoSearch">autoSearch()</a></div>
+<blockquote><em>Description:</em><br />
+* Browsing subfolders after a specific file<br />
+* @var string $path<br />
+* @var string $search<br />
+* @return bool</blockquote>
+Example:
+<pre class="sh_php code">PWEL_ROUTING::autoSearch("app/controller/", "test.php");
+print PWEL_ROUTING::$searchResult;</pre>
+
+<div class="chaptertitle"><a name="displayController" id="displayController">displayController()</a></div>
+<blockquote><em>Description:</em><br />
+* Loads the method else send to error controller<br />
+* $mode got default and startController as possible values<br />
+* @param class $class<br />
+* @param string $mode </blockquote>
+<pre class="sh_php code">//Creating an instance
+$pr = new PWEL_ROUTING();
+//Displaying a controller
+$pr->displayController(new ControllerClass());</pre>
+
+<div class="chaptertitle"><a name="displayError" id="displayError">displayError()</a></div>
+<blockquote><em>Description:</em><br />
+* Display the error document</blockquote>
+Example:
+<pre class="sh_php code">//Creating an instance
+$pr = new PWEL_ROUTING();
+//Displaying the error document
+$pr->displayError();</pre>

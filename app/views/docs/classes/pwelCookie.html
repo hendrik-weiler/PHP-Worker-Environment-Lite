@@ -1,0 +1,92 @@
+<div class="legend">
+<div class="smalltitle">Legend</div>
+  <ul>
+    <li><a href="#descrip">Description</a></li>
+    <li><a href="#functions">Functions</a></li>
+    <li><a href="#addVar">addVar()</a></li>
+    <li><a href="#removeVar">removeVar()</a></li> 
+    <li><a href="#deleteCookieSession">deleteCookieSession()</a></li>
+    <li><a href="#getCookieVariables">getCookieVariables()</a></li>   
+  </ul>
+</div>
+<div class="chaptertitle"><a name="descrip">Description</a></div> 
+<p> This class is a simple cookie manager. You create a cookie by creating the class.</p>
+<p>Example:
+<pre class="sh_php code">$cookie = new PWEL_COOKIE("MyCookieName");</pre></p>
+<div class="chaptertitle"><a name="functions">Functions</a></div>
+<ul>
+  <li><a href="#addVar">addVar</a> Adds a variable to the cookie</li>
+  <li><a href="#removeVar">removeVar</a> Removes a variable from the cookie</li>
+  <li><a href="#deleteCookieSession">deleteCookieSession</a> Deletes the cookie</li>
+  <li><a href="#getCookieVariables">getCookieVariables</a> Returns an array of variables</li>
+</ul>
+<div class="chaptertitle"><a name="addVar" id="addVar">addVar()</a></div>
+<blockquote><em>Description:</em><br />
+* Adds a variable to the cookie<br />
+* @param string $key<br />
+* @param string $value</blockquote>
+Example:
+<pre class="sh_php code">
+//Creates an instance with the cookie name
+$cookie = new PWEL_COOKIE("MyCookieName");
+//Adds a variable to the cookie
+$cookie->addVar("var","Test");
+
+var_dump($cookie->getCookieVariables());
+</pre>
+
+Output:
+<pre class="sh_php code">
+array
+  'var' => string 'Test' (length=4)
+</pre>
+
+<div class="chaptertitle"><a name="removeVar" id="removeVar">removeVar()</a></div>
+<blockquote><em>Description:</em><br />
+* Removes the variable from the cookie<br />
+* @param string $key</blockquote>
+Example:
+<pre class="sh_php code">
+//Creates an instance with the cookie name
+$cookie = new PWEL_COOKIE("MyCookieName");
+//Removes a variable to the cookie
+$cookie->addVar("var");
+
+var_dump($cookie->getCookieVariables());
+</pre>
+
+Output:
+<pre class="sh_php code">
+array
+  empty
+</pre>
+
+<div class="chaptertitle"><a name="deleteCookieSession" id="deleteCookieSession">deleteCookieSession()</a></div>
+<blockquote><em>Description:</em><br />
+* Deletes the cookie session</blockquote>
+Example:
+<pre class="sh_php code">
+//Creates an instance with the cookie name
+$cookie = new PWEL_COOKIE("MyCookieName");
+//Deletes the cookie
+$cookie->deleteCookieSession();
+</pre>
+
+<div class="chaptertitle"><a name="getCookieVariables" id="getCookieVariables">getCookieVariables()</a></div>
+<blockquote><em>Description:</em><br />
+* Returns the cookie variables<br />
+* @return array</blockquote>
+Example:
+<pre class="sh_php code">
+//Creates an instance with the cookie name
+$cookie = new PWEL_COOKIE("MyCookieName");
+//Adds a variable to the cookie
+$cookie->addVar("var","Test");
+
+var_dump($cookie->getCookieVariables());
+</pre>
+Output:
+<pre class="sh_php code">
+array
+  'var' => string 'Test' (length=4)
+</pre>

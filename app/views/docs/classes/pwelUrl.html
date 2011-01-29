@@ -1,0 +1,62 @@
+<div class="legend">
+<div class="smalltitle">Legend</div>
+  <ul>
+    <li><a href="#descrip">Description</a></li>
+    <li><a href="#functions">Functions</a></li>
+    <li><a href="#locateUrlVariables">locateUrlVariables()</a></li>
+    <li><a href="#validateLink">validateLink</a>()</li>
+    <li><a href="#redirect">redirect</a>()</li>
+  </ul>
+</div>
+<div class="chaptertitle"><a name="descrip">Description</a></div> 
+<p>
+This class is used for getting all parameters and doing redirections until now.
+</p>
+<div class="chaptertitle"><a name="functions">Functions</a></div>
+<ul>
+  <li>  <a href="#locateUrlVariables">locateUrlVariables</a> Returns all paramter from url</li>
+  <li><a href="#validateLink">validateLink</a> Returns a validated link for the framework</li>
+  <li><a href="#redirect">redirect</a> Redirect to a given location</li>
+</ul>
+<div class="chaptertitle"><a name="locateUrlVariables" id="locateUrlVariables">locateUrlVariables()</a></div>
+<blockquote><em>Description:</em><br />
+* Returns an array of all variables given in the url<br />
+* @return array</blockquote> 
+<p>Example:  
+<pre class="sh_php code">
+//Create a PWEL_URL object
+$url = new PWEL_URL();
+//Store params into a variable
+$params = $url->locateUrlVariables();
+var_dump($params);</pre>
+</p>
+<p>Output:
+<pre class="code sh_php">array
+  0 => string 'autoInject' (length=10)
+  1 => string 'x' (length=1)
+  2 => string '3' (length=1)
+  3 => string 'a' (length=1)</pre>
+  </p>
+<div class="chaptertitle"><a name="validateLink" id="validateLink">validateLink()</a></div>
+<blockquote><em>Description:</em><br />
+* Returns a validated link<br />
+* @var string $file<br />
+* @return string</blockquote> 
+Example:<pre class="sh_php code">//Create a PWEL_URL object
+$c = new PWEL_URL();
+//Returns the validated path to a variable
+$link = $c->validateLink("/class/method/param");
+//print it out
+print $link;</pre>
+Output:
+<pre class="sh_html code">/pwel/docs/class/method/param</pre>
+<div class="chaptertitle"><a name="redirect" id="redirect">redirect()</a></div>
+<blockquote><em>Description:</em><br />
+* Redirect to given destination<br />
+* @var string $to<br />
+* @return void</blockquote> 
+Example:
+<pre class="sh_php code">//Create a PWEL_URL object
+$c = new PWEL_URL();
+//Peforms a redirect to /class/method
+$c->redirect("/class/method");</pre>

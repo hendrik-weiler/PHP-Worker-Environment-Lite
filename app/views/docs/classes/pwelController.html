@@ -1,0 +1,116 @@
+<div class="legend">
+<div class="smalltitle">Legend</div>
+  <ul>
+    <li><a href="#descrip">Description</a></li>
+    <li><a href="#functions">Functions</a></li>
+    <li><a href="#display">display()</a></li>
+    <li><a href="#displayExists">displayExists()</a></li>
+    <li><a href="#getRegister">getRegister()</a></li>
+    <li><a href="#validateCss">validateCss()</a></li>
+    <li><a href="#validateJS">validateJS()</a></li>
+    <li><a href="#validateLink">validateLink()</a></li>
+  </ul>
+</div>
+<div class="chaptertitle"><a name="descrip">Description</a></div> 
+<p>
+Managing all controller behaviours. So displaying files or validating various things.</p>
+<div class="chaptertitle"><a name="functions">Functions</a></div>
+<ul>
+  <li><a href="#display">display</a> Displays a file</li>
+  <li><a href="#displayExists">displayExists</a> Checks if the wanted displayed file exists</li>
+  <li><a href="#getRegister">getRegister</a> Returns a object from pwel storage</li>
+  <li><a href="#validateCss">validateCss</a> Returns a validated css tag</li>
+  <li><a href="#validateJS">validateJS</a> Returns a validated js tag</li>
+  <li><a href="#validateLink">validateLink</a> Returns a validated link</li>
+</ul>
+<div class="chaptertitle"><a name="display" id="display">display()</a></div>
+<blockquote><em>Description:</em><br />
+* Display a file from view folder<br />
+* Variables will be stored in class itself and will be accessable as normal variables<br />
+* in controller class<br />
+* Example:<br />
+* function index() {<br />
+*   $this-&gt;testVariable = &quot;hello!&quot;;<br />
+*   $this-&gt;display(&quot;outputfile&quot;);<br />
+* }<br />
+* <br />
+* Outputfile:<br />
+* &lt;?php print $testVariable.' im a test!';<br />
+*<br />
+* @param mixed $vars<br />
+* @param string $filename</blockquote> 
+Example:<pre class="sh_php code">
+//Sets variables for function
+$var["xd"] = "hallo";
+//Sets variables which will be extracted in function itself
+$this->hallo = "xd";
+//Calling a display function with $var array
+$this->display("test",$var); //if you give no extension it will use php</pre>
+test.php:
+<pre class="sh_php code">print $xd."&lt;br />";
+print $hallo."&lt;br />";</pre>
+Output:
+<pre class="sh_html code">hallo
+xd</pre>
+<div class="chaptertitle"><a name="displayExists" id="displayExists">displayExists()</a></div>
+<blockquote><em>Description:</em><br />
+* Returns true or false whether the file exists<br />
+* @param string $filename<br />
+* @return bool </blockquote> 
+Example:
+<pre class="sh_php code">
+if($pc->displayExists($param.".html"))
+       $pc->display($param.".html");
+else
+       $pr->displayError();</pre>
+       
+Output:
+<pre>displayed file or error</pre>
+<div class="chaptertitle"><a name="getRegister" id="getRegister">getRegister()</a></div>
+<blockquote><em>Description:</em><br />
+* Returns a registered object<br />
+*<br />
+* "*" in name is a wildcard to spare the time writing full class names<br />
+* Example:<br />
+* PWEL_PLUGIN_HTML_HELPER =&gt; *_HTML_HELPER, *_HTML, *_HELPER<br />
+*<br />
+* @param string $name<br />
+* @return object</blockquote> 
+Example:
+<pre class="sh_php code">//Creates a new instance
+$pc = new PWEL_CONTROLLER();
+//Contains a instance of PWEL_PLUGIN_HTML_HELPER
+$html_helper = $pc->getRegister("*_HTML");</pre>
+
+<div class="chaptertitle"><a name="validateCss" id="validateCss">validateCss()</a></div>
+<blockquote><em>Description:</em><br />
+* Returns a validated css link tag<br />
+* @var string $file<br />
+* @return string</blockquote> 
+Example:
+<pre class="sh_php code">//Creates a new instance
+$pc = new PWEL_CONTROLLER();
+//Put a validated css tag into the variable
+$cssTag = $pc->validateCss("css/file.css");</pre>
+
+<div class="chaptertitle"><a name="validateJS" id="validateJS">validateJS()</a></div>
+<blockquote><em>Description:</em><br />
+* Returns a validated script link tag<br />
+* @var string<br />
+* @return string</blockquote> 
+Example:
+<pre class="sh_php code">//Creates a new instance
+$pc = new PWEL_CONTROLLER();
+//Put a validated js tag into the variable
+//$file can be a url aswell
+$jsTag = $pc->validateJs("js/file.js");</pre>
+
+<div class="chaptertitle"><a name="validateLink" id="validateLink">validateLink()</a></div>
+<blockquote><em>Description:</em><br />
+* Returns a validated link<br />
+* from PWEL_URL<br />
+* <br />
+* @var string $file<br />
+* @return string</blockquote>
+This function just return the function from PWEL_URL. <br />
+So theres no need to create an instance of PWEL_URL in controllers anymore just for validating links.

@@ -1,4 +1,22 @@
 <?php
+/*
+ * PHP Worker Environment Lite - a easy to use PHP framework
+ * Copyright (C) 2010  Hendrik Weiler
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 /**
  * PHP Worker Environment Lite - Routing Class
  * 
@@ -6,8 +24,13 @@
  *
  * @author Hendrik Weiler
  * @package PWEL
+ * @category PWEL
+ * @version 1.0
+ * @since File release since version 1.0
  */
-class PWEL_ROUTING extends PWEL_CONTROLLER {
+class PWEL_ROUTING extends PWEL_CONTROLLER
+{
+
     /**
      * The controller which will be load automaticly if no variables are given
      * @var string
@@ -37,13 +60,13 @@ class PWEL_ROUTING extends PWEL_CONTROLLER {
  
     /**
      * If set to true the given controller will be searched in '$namespace / subfolders'
-     * @var bool $autoSearch
+     * @var bool
      */   
     static $autoSearch = false;
     
     /**
      * Result of autosearch
-     * @var string $searchResult
+     * @var string
      */
     static $searchResult;
     
@@ -81,20 +104,22 @@ class PWEL_ROUTING extends PWEL_CONTROLLER {
     /**
      * Sets relative path and start routing
      */
-    public function start() {
+    public function start()
+    {
         $this->locateRelativePath();
-        if(!PWEL_COMPONENTS::$components["route"]) {
+        if(!PWEL_COMPONENTS::$components['route']) {
            $this->routeCurrentDir(); 
         }
     }
 
-    public function loadAutoInject() {
-        include_once self::$relative_path."app/AutoInject.php";
+    public function loadAutoInject()
+    {
+        include_once self::$relative_path . 'app/AutoInject.php';
         $injection = new AutoInject();
-        $methods = get_class_methods("AutoInject");
+        $methods = get_class_methods('AutoInject');
         if(is_array($methods)) {
             foreach($methods as $function) {
-                if(!method_exists("PWEL_CONTROLLER", $function))
+                if(!method_exists('PWEL_CONTROLLER', $function))
                     $injection->$function();
             }
         }
@@ -105,19 +130,20 @@ class PWEL_ROUTING extends PWEL_CONTROLLER {
     /**
      * Locate the relative path to the current directory and save it
      */
-    static function locateRelativePath() {
-        self::$relative_path = $_SERVER["DOCUMENT_ROOT"].$_SERVER['PHP_SELF'];
+    static function locateRelativePath()
+    {
+        self::$relative_path = $_SERVER["DOCUMENT_ROOT"] . $_SERVER['PHP_SELF'];
         self::$relative_path = str_replace("//", "/", self::$relative_path);
         self::$relative_path = str_replace("index.php", "", self::$relative_path);
-        if(is_dir(self::$relative_path."app")) {
+        if(is_dir(self::$relative_path . "app")) {
             return;
         }
-        $path = explode("/",self::$relative_path);
+        $path = explode("/", self::$relative_path);
         $count = count($path);
-        for($i=$count;$i>=0;--$i) {
+        for($i = $count; $i >= 0; --$i) {
             unset($path[$i]);
-            self::$relative_path = implode("/",$path)."/";
-            if(is_dir(self::$relative_path."/app")) {
+            self::$relative_path = implode("/",$path) . "/";
+            if(is_dir(self::$relative_path . "/app")) {
                 break;
             }
         }
@@ -127,7 +153,8 @@ class PWEL_ROUTING extends PWEL_CONTROLLER {
      * Returns the relative path
      * @return string
      */
-    public function requestRelativePath() {
+    public function requestRelativePath()
+    {
         $this->locateRelativePath();
         return self::$relative_path;
     }
@@ -136,7 +163,8 @@ class PWEL_ROUTING extends PWEL_CONTROLLER {
      * Checks if the controllers are avaible else send to error controller
      * @return null
      */
-    public function routeCurrentDir() {
+    public function routeCurrentDir()
+    {
         if(PWEL_ROUTING::$routed == true)
             return true;
         
@@ -144,22 +172,32 @@ class PWEL_ROUTING extends PWEL_CONTROLLER {
         $this->url_variables = $url->locateUrlVariables();
         if(empty($this->url_variables)) {
             $check = $this->checkIncludeControllerClass(self::$start_controller);
-            if($check) {}
-            else {
+            if($check)
+            {
+
+            } else {
                 $check = $this->checkIncludeControllerClass(self::$error_controller);
-                if(!$check) { return; } 
+                if(!$check)
+                { 
+                    return;
+                }
             }
-            $this->displayController(new $check(),"startController"); 
+            $this->displayController(new $check(), "startController");
             self::$controllerNotFound = false;
         }
         else {
             self::$controllerNotFound = false;
             $check = $this->checkIncludeControllerClass($this->url_variables[0]);
-            if($check) {}
-            else {
+            if($check) 
+            {
+
+            } else {
                 $check = $this->checkIncludeControllerClass(self::$error_controller);
                 self::$controllerNotFound = true;
-                if(!$check) { return; }                 
+                if(!$check)
+                {
+                    return;
+                }
             }
             $this->displayController(new $check());
         }
@@ -171,10 +209,12 @@ class PWEL_ROUTING extends PWEL_CONTROLLER {
 
     /**
      * Loads the method else send to error controller
+     * $mode got default and startController as possible values
      * @param class $class
      * @param string $mode 
      */
-    public function displayController($class,$mode="default") {
+    public function displayController($class,$mode="default")
+    {
         self::$ControllerInfo["name"] = get_class($class);
         if(method_exists($class, "startup")) {
             $class->startup();
@@ -186,7 +226,7 @@ class PWEL_ROUTING extends PWEL_CONTROLLER {
                 }
                 else {
                     // Error Output: No index defined!
-                    throw new Exception("Method: Index must be defined in ".  get_class($class));
+                    throw new Exception("Method: Index must be defined in " . get_class($class));
                 }
                 break; 
             case "default":
@@ -200,7 +240,7 @@ class PWEL_ROUTING extends PWEL_CONTROLLER {
                     } 
                     else {
                         //Error Output: No index defined!
-                        throw new Exception("Method: Index must be defined in ".  get_class($class));
+                        throw new Exception("Method: Index must be defined in " . get_class($class));
                     }
                 }
                 break;
@@ -213,23 +253,25 @@ class PWEL_ROUTING extends PWEL_CONTROLLER {
      * @param string $class
      * @return string/false 
      */
-    public function checkIncludeControllerClass($class) {
+    public function checkIncludeControllerClass($class)
+    {
         if(!empty(self::$namespace)) {
             self::correctNamespace();
             $namespace = self::$namespace;
         }
         if(self::$autoSearch == true) {
-            self::autoSearch("app/controller/",$class.".php");
-            self::$searchResult = str_replace("app/controller/","",self::$searchResult);
+            self::autoSearch("app/controller/", $class . ".php");
+            self::$searchResult = str_replace("app/controller/", "", self::$searchResult);
             $namespace = null;
         }
-        if(file_exists(self::$relative_path.'app/controller/'.self::$searchResult.$namespace.$class.'.php')) {
-            require_once self::$relative_path.'app/controller/'.self::$searchResult.$namespace.$class.'.php';
-            self::$ControllerInfo["path"] = self::$relative_path.'app/controller/'.self::$searchResult.$namespace.$class.'.php';
+        $path = self::$relative_path.'app/controller/' . self::$searchResult . $namespace . $class . '.php';
+        if(file_exists($path)) {
+            require_once $path;
+            self::$ControllerInfo["path"] = $path;
             return $class;
         }     
         else {
-            return false;
+            throw new Exception("Controller: <strong>$class</strong> not found in <em>" . $path . '</em>');
         }
     }
     
@@ -237,34 +279,37 @@ class PWEL_ROUTING extends PWEL_CONTROLLER {
      * This function correct the namespace value 
      * Example: /html/ -> html/, projectname
      */
-    static function correctNamespace() {
+    static function correctNamespace()
+    {
        $namespace = self::$namespace."/";
-       $namespace = str_replace("//","/",$namespace);
-       $namespace = str_replace("./","",$namespace);
-       $namespace = str_replace(".","",$namespace);
+       $namespace = str_replace("//", "/", $namespace);
+       $namespace = str_replace("./", "", $namespace);
+       $namespace = str_replace(".", "", $namespace);
        self::$namespace = $namespace;
     }
 
     /**
      * Display the error document
      */
-    public function displayError() {
+    public function displayError()
+    {
         $class = PWEL_ROUTING::$error_controller;
-        self::autoSearch("app/controller/", $class.".php");
-        require_once str_replace("//","/",self::$relative_path.self::$searchResult."/$class.php");
+        self::autoSearch("app/controller/", $class . ".php");
+        require_once str_replace("//", "/", self::$relative_path.self::$searchResult . "/$class.php");
         $this->displayController(new $class());
     }
 
     /**
      * Sets a header
      */
-    public function setHeader() {
+    public function setHeader()
+    {
         if(!PWEL::$config["header"]["charset"])
             PWEL::$config["header"]["charset"] = "UTF-8";
         
         if(!PWEL::$config["header"]["contentType"])
             PWEL::$config["header"]["contentType"] = "text/html";
-        header('Content-Type: '.PWEL::$config["header"]["contentType"].'; charset='.PWEL::$config["header"]["charset"]);
+        header('Content-Type: ' . PWEL::$config["header"]["contentType"] . '; charset=' . PWEL::$config["header"]["charset"]);
     }
 
     /**
@@ -273,33 +318,36 @@ class PWEL_ROUTING extends PWEL_CONTROLLER {
      * @var string $search
      * @return bool
      */
-    static function autoSearch($path, $search) {
-        $dir = self::$relative_path.$path;
-        if(!is_dir($dir)) { return false; }
+    static function autoSearch($path, $search)
+    {
+        $dir = self::$relative_path . $path;
+        if(!is_dir($dir))
+        {
+            return false;
+        }
         $directoryContent = scandir($dir);
-        if(in_array($search,$directoryContent)) {
+        if(in_array($search, $directoryContent)) {
             self::$searchResult = $path;
             return true;
         }
         else {
             $hasDirectory = false;
             foreach($directoryContent as $file) {
-                if(is_dir($dir.$file) && $file != "." && $file != "..") {
+                if(is_dir($dir . $file) && $file != "." && $file != "..") {
                     if(!empty(self::$namespaceRange)) {
-                        if(in_array($file,self::$namespaceRange)) {
-                            $dirs[] = $path.$file;
+                        if(in_array($file, self::$namespaceRange)) {
+                            $dirs[] = $path . $file;
                             $hasDirectory = true;
                         }
-                    }
-                    else {
-                           $dirs[] = $path.$file;
+                    } else {
+                           $dirs[] = $path . $file;
                            $hasDirectory = true;
                     }
                 }
             }
             if($hasDirectory == true && !empty($dirs)) {
                 foreach($dirs as $directory) {
-                    if(self::autoSearch($directory."/", $search) == true) {
+                    if(self::autoSearch($directory . "/", $search) == true) {
                         return true;
                     }
                 }
@@ -311,20 +359,3 @@ class PWEL_ROUTING extends PWEL_CONTROLLER {
         }
     }
 }
-
-    //PHP Worker Environment Lite - a easy to use PHP framework
-    //Copyright (C) 2010  Hendrik Weiler
-    //
-    //This program is free software: you can redistribute it and/or modify
-    //it under the terms of the GNU General Public License as published by
-    //the Free Software Foundation, either version 3 of the License, or
-    //(at your option) any later version.
-    //
-    //This program is distributed in the hope that it will be useful,
-    //but WITHOUT ANY WARRANTY; without even the implied warranty of
-    //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    //GNU General Public License for more details.
-    //
-    //You should have received a copy of the GNU General Public License
-    //along with this program.  If not, see <http://www.gnu.org/licenses/>.
-?>
