@@ -161,7 +161,7 @@ class PWEL_CONTROLLER
     public function validateCss($file)
     {
         $path = $this->validateLink($file);
-        return '<link rel="stylesheet" href="'.$path.'">\n';
+        return '<link rel="stylesheet" href="' . $path . '">' . "\n";
     }
 
     /**
@@ -172,7 +172,7 @@ class PWEL_CONTROLLER
     public function validateJS($file)
     {
         $path = $this->validateLink($file);
-        return '<script type="text/javascript" src="'.$path.'"></script>\n';
+        return '<script type="text/javascript" src="' . $path . '"></script>' . "\n";
     }
  
     /**
