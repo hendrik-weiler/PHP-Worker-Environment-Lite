@@ -1,11 +1,31 @@
 <?php
+/*
+ * Hendrik's Class Collection
+ * Copyright (C) 2010-2011  Hendrik Weiler
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http: * www.gnu.org/licenses/>.
+ */
 /**
  * Creates a easy db table
  *
  * @author Hendrik Weiler
  * @package eDB
+ * @category Collection
+ * @version 1.0
  */
-class eDB_Table {
+class eDB_Table
+{
     /**
      * Contains the name of the table
      * @var string
@@ -33,7 +53,8 @@ class eDB_Table {
     /**
      * Sets variables
      */
-    public function __construct() {
+    public function __construct()
+    {
         if(count(func_get_args())>0) {
             foreach(func_get_args() as $arg) {
                 if(is_array($arg)) {
@@ -59,17 +80,24 @@ class eDB_Table {
      * @param string $name
      * @return bool
      */
-    public function exists($name) {
-       return is_file(str_replace("//","/",$this->dbPath."/".$name.".edb"));
+    public function exists($name)
+    {
+       return is_file(
+            str_replace('//', '/', $this->dbPath . '/' . $name . '.edb')
+       );
     }
 
     /**
      * Creates a new table
      */
-    private function create() {
-        if(!$this->exists("/".$this->tableName)) {
-           $table = fopen(str_replace("//","/",$this->dbPath."/".$this->tableName.".edb"),"w+");
-           fputs($table,implode("|",$this->tableColums));
+    private function create()
+    {
+        if(!$this->exists('/'.$this->tableName)) {
+           $table = fopen(
+       str_replace('//', '/', $this->dbPath . '/' . $this->tableName . '.edb'),
+       "w+"
+           );
+           fputs($table,implode('|',$this->tableColums));
         }
     }
 
@@ -77,17 +105,19 @@ class eDB_Table {
      * Delete all table entries
      * @param string $name
      */
-    public function clearTable($name) {
-        $delete = new eDB_Delete($name, "*");
+    public function clearTable($name)
+    {
+        $delete = new eDB_Delete($name, '*');
     }
 
     /**
      * Deletes a table
      * @param string $name
      */
-    public function delete($name) {
-        if($this->exists("/".$name))
-            unlink(str_replace("//","/",$this->dbPath."/".$name.".edb"));
+    public function delete($name)
+    {
+        if($this->exists('/' . $name))
+           unlink(str_replace('//', '/', $this->dbPath . '/' . $name . '.edb'));
     }
 
     /**
@@ -96,8 +126,9 @@ class eDB_Table {
      * @param string $name
      * @param string $table
      */
-    public function deleteColumn($table,$name) {
-        $select = new eDB_Select($table, "*");
+    public function deleteColumn($table,$name)
+    {
+        $select = new eDB_Select($table, '*');
         $count = -1;
         $cols = $select->getColumns($table);
         if(!in_array($name, $cols))
@@ -129,8 +160,9 @@ class eDB_Table {
      * @param string $name
      * @param int $pos
      */
-    public function addColumn($table,$name,$pos=0) {
-        $select = new eDB_Select($table, "*");
+    public function addColumn($table,$name,$pos=0)
+    {
+        $select = new eDB_Select($table, '*');
         $cols = $select->getColumns($table);
         
         //Columns
@@ -156,7 +188,7 @@ class eDB_Table {
                     $tableContent[$key][] = $rowValue;
                 }
                 else {
-                    $tableContent[$key][$pos] = "";
+                    $tableContent[$key][$pos] = '';
                     $tableContent[$key][] = $rowValue;
 
                 }
@@ -166,7 +198,7 @@ class eDB_Table {
         if(count($cols) <= $pos) {
             $i = 0;
             foreach($select->result as $key => $value) {
-                    $tableContent[$i][] = "";
+                    $tableContent[$i][] = '';
                     ++$i;
             }
         }
@@ -188,13 +220,14 @@ class eDB_Table {
      * @param string $name
      * @param int $startpos
      */
-    public function setPrimaryKey($table,$name,$startpos=1) {
-        $select = new eDB_Select($table, "*");
-        $cols = $select->getColumns($table,true);
+    public function setPrimaryKey($table,$name,$startpos=1)
+    {
+        $select = new eDB_Select($table, '*');
+        $cols = $select->getColumns($table, true);
         if(!is_array($cols))
             return false;
         
-        if(preg_match("#$name:key;[0-9]#i", implode("|",$cols))) {
+        if(preg_match("#$name:key;[0-9]#i", implode('|',$cols))) {
             return false;
         }
         
@@ -223,19 +256,3 @@ class eDB_Table {
        $update->updateTable($result, $table);
     }
 }
-    //Hendrik's Class Collection
-    //Copyright (C) 2010  Hendrik Weiler
-    //
-    //This program is free software: you can redistribute it and/or modify
-    //it under the terms of the GNU General Public License as published by
-    //the Free Software Foundation, either version 3 of the License, or
-    //(at your option) any later version.
-    //
-    //This program is distributed in the hope that it will be useful,
-    //but WITHOUT ANY WARRANTY; without even the implied warranty of
-    //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    //GNU General Public License for more details.
-    //
-    //You should have received a copy of the GNU General Public License
-    //along with this program.  If not, see <http://www.gnu.org/licenses/>.
-?>

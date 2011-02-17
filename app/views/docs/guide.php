@@ -62,6 +62,22 @@
                 }
               ?>
           </ul>
+          <div class="smalltitle">Browse Collection</div>
+          <ul>
+              <?php
+                $pc = new PWEL_CONTROLLER();
+                $pr = new PWEL_ROUTING();
+                $db = new eDB(".");
+                $select = new eDB_Select("docsdb", array(
+                    "type" => "collection"
+                ));
+                foreach($select->result as $row) {
+                    print '<li><a href="'.$pc->validateLink($row["url"]).'">'.$row["name"].'</a></li>';
+                    if($param == str_replace("/","",$row["url"]))
+                        $name = $row["name"];
+                }
+              ?>
+          </ul>
       </div>
       <div class="content">
           <div class="smalltitle"><?php print $name; ?></div>

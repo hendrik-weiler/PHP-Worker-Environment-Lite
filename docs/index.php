@@ -21,7 +21,7 @@ $pwel->configRouting(array(
     'autosearch' => true,
     'namespace' => 'docs',
     'namespacerange' => array(
-        'docs','layout','about','classes'
+        'docs','layout','about','classes','collection'
     )
 ));
 $pwel->initialize(

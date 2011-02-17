@@ -10,3 +10,4 @@ id:key;1|type|name|url
 9|component|PWEL_COMPONENT_LAYOUT|/pwelCompLayout
 10|class|PWEL_ANALYZER|/pwelAnalyzer
 11|about|Using SQL|/usingSQL
+12|collection|eDB|/eDB
