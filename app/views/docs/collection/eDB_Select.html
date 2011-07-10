@@ -1,0 +1,72 @@
+<div class="legend">
+<div class="smalltitle">Legend</div>
+                          <ul>
+                          <li><a href="#descrip">Description</a></li>
+                          <li><a href="#functions">Functions</a></li><li><a href="#__construct">__construct()</a></li><li><a href="#getColumns">getColumns()</a></li><li><a href="#getColumnNumbers">getColumnNumbers()</a></li><li><a href="#search">search()</a></li><li><a href="#getRowIdBySearch">getRowIdBySearch()</a></li><li><a href="#getRowById">getRowById()</a></li></ul>
+                        </div><div class="chaptertitle"><a name="descrip">Description</a></div>
+<p><span class="clickTextarea">This class handles all selections from tables<br>similiar to a normal sql class which selects a specific area from tables</span></p><div class="chaptertitle"><a name="functions">Functions</a></div>
+            <ul><li><a href="#__construct">__construct</a> <span><span class="clickTextarea">Executing a search if parameter given</span></span></li><li><a href="#getColumns">getColumns</a> <span><span class="clickTextarea">Returns an array of colum names of a table</span></span></li><li><a href="#getColumnNumbers">getColumnNumbers</a> <span><span class="clickTextarea">Returns the number of column in a table</span></span></li><li><a href="#search">search</a> <span><span class="clickTextarea">Searches entries after pattern in a table</span></span></li><li><a href="#getRowIdBySearch">getRowIdBySearch</a> <span><span class="clickTextarea">Returns the entry position of a row as int value</span></span></li><li><a href="#getRowById">getRowById</a> <span><span class="clickTextarea">Returns a row as array</span></span></li></ul><div class="chaptertitle"><a name="__construct">__construct</a></div><blockquote><em>Description:</em>
+                                    
+     <br> Call a search and put it in $this->result
+     <br> @param array $table
+     <br> @param string $search
+     
+                                    <p>Example:
+                                    <pre class="sh_php code" style='background-attachment: scroll; background-repeat: no-repeat; background-image: url("http://localhost/pwel/html/eng/doc/index/eDB_Select/pic/php.png"); background-position: 100% 0%; background-size: auto; background-origin: padding-box; background-clip: border-box; background-color: #ccccff; border-top-color: #0000ff; border-left-color: #0000ff; border-right-color: #0000ff; border-bottom-color: #0000ff; border-top-width: 2px; border-left-width: 2px; border-right-width: 2px; border-bottom-width: 2px; border-top-style: dotted; border-left-style: dotted; border-right-style: dotted; border-bottom-style: dotted'><span class="clickTextarea">$x = new eDB('../myNewDatabase');<br><br>//Creates an instance and search in 'tablename'<br>//table after everything '*'<br>$select = new eDB_Select('tablename', '*');<br><br>//Will contain a multidimensional array <br>//using in foreach or for loops<br>var_dump($select->result);</span></pre>                                    </blockquote>
+                                    <div class="chaptertitle"><a name="getColumns">getColumns</a></div><blockquote><em>Description:</em>
+                                    
+     <br> Returns the column names as array
+     <br> @param string $tableName
+     <br> @return array
+     
+                                    <p>Example:
+                                    <pre class="sh_php code" style='background-attachment: scroll; background-repeat: no-repeat; background-image: url("http://localhost/pwel/html/eng/doc/index/eDB_Select/pic/php.png"); background-position: 100% 0%; background-size: auto; background-origin: padding-box; background-clip: border-box; background-color: #ccccff; border-top-color: #0000ff; border-left-color: #0000ff; border-right-color: #0000ff; border-bottom-color: #0000ff; border-top-width: 2px; border-left-width: 2px; border-right-width: 2px; border-bottom-width: 2px; border-top-style: dotted; border-left-style: dotted; border-right-style: dotted; border-bottom-style: dotted'><span class="clickTextarea">$x = new eDB('../myNewDatabase');<br><br>$select = new eDB_Select();<br><br>//Contains an array of column names from table 'tablename'<br>$cols = $select->getColumns('tablename');</span></pre>                                    </blockquote>
+                                    <div class="chaptertitle"><a name="getColumnNumbers">getColumnNumbers</a></div><blockquote><em>Description:</em>
+                                    
+     <br> Returns the number of the columns
+     <br> @param string $tableName
+     <br> @return int
+     
+                                    <p>Example:
+                                    <pre class="sh_php code" style='background-attachment: scroll; background-repeat: no-repeat; background-image: url("http://localhost/pwel/html/eng/doc/index/eDB_Select/pic/php.png"); background-position: 100% 0%; background-size: auto; background-origin: padding-box; background-clip: border-box; background-color: #ccccff; border-top-color: #0000ff; border-left-color: #0000ff; border-right-color: #0000ff; border-bottom-color: #0000ff; border-top-width: 2px; border-left-width: 2px; border-right-width: 2px; border-bottom-width: 2px; border-top-style: dotted; border-left-style: dotted; border-right-style: dotted; border-bottom-style: dotted'><span class="clickTextarea">$x = new eDB('../myNewDatabase');<br><br>$select = new eDB_Select();<br><br>//Contains the counted columns in table 'tablename'<br>$colNumber = $select->getColumnNumbers('tablename');</span></pre>                                    </blockquote>
+                                    <div class="chaptertitle"><a name="search">search</a></div><blockquote><em>Description:</em>
+                                    
+     <br> Returns a search result as array
+     <br>
+     <br> Search Patterns:
+     <br> array($columName => $searchValue)
+     <br>
+     <br> Advanced:
+     <br> $columname => "<=1000"
+     <br> $columname => ">=1000"
+     <br> $columname => "<1000"
+     <br> $columname => ">1000"
+     <br> $columname => "!=1000"
+     <br>
+     <br> @param string $tableName
+     <br> @param array $search
+     <br> @param string $column
+     <br> @param string $sortWay
+     <br> @return array
+     
+                                    <p>Example:
+                                    <pre class="sh_php code" style='background-attachment: scroll; background-repeat: no-repeat; background-image: url("http://localhost/pwel/html/eng/doc/index/eDB_Select/pic/php.png"); background-position: 100% 0%; background-size: auto; background-origin: padding-box; background-clip: border-box; background-color: #ccccff; border-top-color: #0000ff; border-left-color: #0000ff; border-right-color: #0000ff; border-bottom-color: #0000ff; border-top-width: 2px; border-left-width: 2px; border-right-width: 2px; border-bottom-width: 2px; border-top-style: dotted; border-left-style: dotted; border-right-style: dotted; border-bottom-style: dotted'><span class="clickTextarea">$x = new eDB('../myNewDatabase');<br><br>$select = new eDB_Select();<br><br>//Contains a result of all entries where id is >= 1 <br>//and name isnt Peter<br>$result = $select->search('tableName',array(<br>   'id' => '>=1', 'name' => '!=Peter'<br>));</span></pre>                                    </blockquote>
+                                    <div class="chaptertitle"><a name="getRowIdBySearch">getRowIdBySearch</a></div><blockquote><em>Description:</em>
+                                    
+     <br> Returns the ID of the searched row
+     <br> @param array $search
+     <br> @param string $tablename
+     <br> @return int 
+     
+                                    <p>Example:
+                                    <pre class="sh_php code" style='background-attachment: scroll; background-repeat: no-repeat; background-image: url("http://localhost/pwel/html/eng/doc/index/eDB_Select/pic/php.png"); background-position: 100% 0%; background-size: auto; background-origin: padding-box; background-clip: border-box; background-color: #ccccff; border-top-color: #0000ff; border-left-color: #0000ff; border-right-color: #0000ff; border-bottom-color: #0000ff; border-top-width: 2px; border-left-width: 2px; border-right-width: 2px; border-bottom-width: 2px; border-top-style: dotted; border-left-style: dotted; border-right-style: dotted; border-bottom-style: dotted'><span class="clickTextarea">$x = new eDB('../myNewDatabase');<br><br>$select = new eDB_Select();<br><br>//Contains the row entry position in table 'tablename'<br>$position = $select->getRowIdBySearch('tablename',array(<br>  'name' => 'Peter'<br>));</span></pre>                                    </blockquote>
+                                    <div class="chaptertitle"><a name="getRowById">getRowById</a></div><blockquote><em>Description:</em>
+                                    
+     <br> Returns a specific row from the table
+     <br> @param int $id
+     <br> @param string $tablename
+     <br> @return array
+     
+                                    <p>Example:
+                                    <pre class="sh_php code" style='background-attachment: scroll; background-repeat: no-repeat; background-image: url("http://localhost/pwel/html/eng/doc/index/eDB_Select/pic/php.png"); background-position: 100% 0%; background-size: auto; background-origin: padding-box; background-clip: border-box; background-color: #ccccff; border-top-color: #0000ff; border-left-color: #0000ff; border-right-color: #0000ff; border-bottom-color: #0000ff; border-top-width: 2px; border-left-width: 2px; border-right-width: 2px; border-bottom-width: 2px; border-top-style: dotted; border-left-style: dotted; border-right-style: dotted; border-bottom-style: dotted'><span class="clickTextarea">$x = new eDB('../myNewDatabase');<br><br>$select = new eDB_Select();<br><br>//Contains the row entry nr 1 in table 'tablename'<br>$row = $select->getRowById(1);</span></pre>                                    </blockquote>
+                                    

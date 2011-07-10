@@ -1,0 +1,120 @@
+  <div class="legend">
+    <div class="smalltitle">Legend</div>
+    <ul>
+      <li>
+        <a href="#descrip">Description</a>
+      </li>
+      <li>
+        <a href="#functions">Functions</a>
+      </li>
+      <li>
+        <a href="#__construct">__construct()</a>
+      </li>
+      <li>
+        <a href="#create">create()</a>
+      </li>
+      <li>
+        <a href="#delete">delete()</a>
+      </li>
+    </ul>
+  </div>
+  <div class="chaptertitle">
+    <a name="descrip">Description</a>
+  </div>
+  <p>
+    <span class="clickTextarea">This class needs to be called everytime you wanna use an eDB class.</span>
+  </p>
+  <div class="chaptertitle">
+    <a name="functions">Functions</a>
+  </div>
+  <ul>
+    <li>
+      <a href="#__construct">__construct</a>
+      <span>
+        <span class="clickTextarea">Sets a new eDB working path</span>
+      </span>
+    </li>
+    <li>
+      <a href="#create">create</a>
+      <span>
+        <span class="clickTextarea">Creates a new eDB database</span>
+      </span>
+    </li>
+    <li>
+      <a href="#delete">delete</a>
+      <span>
+        <span class="clickTextarea">Deletes a eDB database</span>
+      </span>
+    </li>
+  </ul>
+  <div class="chaptertitle">
+    <a name="__construct">__construct</a>
+  </div>
+  <blockquote>
+    <em>Description:</em>
+    <br>
+     Sets configuration
+     
+    <br>
+     @param string $path
+     
+                                    
+    <p>Example:
+                                    </p>
+    <pre class="sh_php code">
+      <span class="clickTextarea">
+        //Getting access to 'mydatabase'
+        <br>
+        $x = new eDB('../mydatabase');
+      </span>
+    </pre>
+  </blockquote>
+  <div class="chaptertitle">
+    <a name="create">create</a>
+  </div>
+  <blockquote>
+    <em>Description:</em>
+    <br>
+     Creates a new db
+     
+    <br>
+     @return bool
+     
+                                    
+    <p>Example:
+                                    </p>
+    <pre class="sh_php code">
+      <span class="clickTextarea">
+        $x = new eDB('../myNewDatabase');
+        <br>
+        <br>
+        //Creates a new database 'myNewDatabase'
+        <br>
+        $x->create();
+      </span>
+    </pre>
+  </blockquote>
+  <div class="chaptertitle">
+    <a name="delete">delete</a>
+  </div>
+  <blockquote>
+    <em>Description:</em>
+    <br>
+     Deletes the current db
+     
+                                    
+    <p>Example:
+                                    </p>
+    <pre class="sh_php code">
+      <span class="clickTextarea">
+        $x = new eDB('../myNewDatabase');
+        <br>
+        <br>
+        //Deletes the database 'myNewDatabase'
+        <br>
+        //and all the tables within
+        <br>
+        $x->delete();
+      </span>
+    </pre>
+  </blockquote>
