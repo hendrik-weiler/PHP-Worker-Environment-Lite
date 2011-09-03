@@ -35,7 +35,7 @@ class PWEL_COMPONENTS
      * 
      * @var array
      */
-    public static $components = array();
+    static $components = array();
 
     /**
      * Handles correct function calls at component execution
@@ -56,7 +56,7 @@ class PWEL_COMPONENTS
     {
         $routing = new PWEL_ROUTING();
         $routing->setHeader();
-        
+
         $this->initComponents($components);
     }
     
@@ -65,20 +65,21 @@ class PWEL_COMPONENTS
      * 
      * @var array $arguments
      */
-    private function initComponents($arguments) {
-        if(!is_array($arguments))
+    private function initComponents($arguments)
+    {
+        if(!is_array($arguments) || empty($arguments))
             return false;
         
         foreach($arguments as $arg) {
             if(is_object($arg)) {
                 $r = new ReflectionClass($arg);
                 if(in_array('PWEL_COMPONENT_INTERFACE', $r->getInterfaceNames()))
-                    $this->components[$arg->_componentTarget][] = $arg;
+                    self::$components[$arg->_componentTarget][] = $arg;
             }
         }
-        self::$components = $this->components;
+        self::$components = self::$components;
         foreach(self::$componentCalls as $call => $x) {
-            if($this->components[$call])
+            if(!empty(self::$components[$call]))
                 $this->execComponents($call);
         }
     }
@@ -90,10 +91,10 @@ class PWEL_COMPONENTS
      */
     private function prepareComponent($componentTarget)
     {
-        if(empty($this->components))
+        if(empty(self::$components))
             return false;
         
-        foreach($this->components[$componentTarget] as $component) {
+        foreach(self::$components[$componentTarget] as $component) {
             if(method_exists($component, '_initFunctions')) {
                if(isset($component->_executionPosition)) {
                    $component->_initFunctions();
@@ -113,11 +114,12 @@ class PWEL_COMPONENTS
      * 
      * @var string $typeOf
      */
-    private function execComponents($typeOf) {
+    private function execComponents($typeOf)
+    {
         $routing = new PWEL_ROUTING();
         $components = $this->prepareComponent($typeOf);
         //Execute components at start of function
-        if($components['start']) {
+        if(!empty($components['start'])) {
             foreach($components['start'] as $component) {
                 $component->_execute();
                 if($component->_standAlone == false) {
@@ -131,7 +133,7 @@ class PWEL_COMPONENTS
         }
         /////////////////////////////////////////
         //Execute components at end of function
-        if($components['end']) {
+        if(!empty($components['end'])) {
             foreach($components['end'] as $component) {
                 if($component->_standAlone == false) {
                     $func = self::$componentCalls[$typeOf];

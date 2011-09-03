@@ -110,6 +110,7 @@ class PWEL_COMPONENT_LAYOUT
         $relativePath = $routing->requestRelativePath();
         if(self::$visible == true && PWEL_ROUTING::$controllerNotFound == false)  {
             PWEL_ROUTING::autoSearch('app/views/',self::$file);
+            #var_dump(PWEL_ROUTING::$searchResult);
             $path = $relativePath.PWEL_ROUTING::$searchResult.self::$file;
             if(file_exists($path))
                 $this->display (self::$file,(array)self::$variables);

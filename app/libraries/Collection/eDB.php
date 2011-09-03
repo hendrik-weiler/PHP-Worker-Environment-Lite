@@ -30,13 +30,13 @@ class eDB
      * Sets the path of the db
      * @var string
      */
-    public static $dbPath;
+    static $dbPath;
 
     /**
      * Sets the name of the db
      * @var string
      */
-    public static $dbName;
+    static $dbName;
 
     /**
      * Sets configuration
@@ -44,10 +44,8 @@ class eDB
      */
     public function __construct($path=null)
     {
-            $this->dbPath = str_replace('//', '/', $path);
-            $this->dbName = $this->retrieveDbName($path);
-            self::$dbPath = $this->dbPath;
-            self::$dbName = $this->dbName;
+            self::$dbPath = str_replace('//', '/', $path);
+            self::$dbName = $this->retrieveDbName($path);
     }
 
     /**
@@ -67,8 +65,8 @@ class eDB
      */
     public function create()
     {
-        if(!is_dir($this->dbPath)) {
-            if(!mkdir($this->dbPath,777, true)) {
+        if(!is_dir(self::$dbPath)) {
+            if(!mkdir(self::$dbPath,777, true)) {
                 return false;
             }
         }
@@ -95,6 +93,6 @@ class eDB
              rmdir($dir);
            }
         }
-        rrmdir(str_replace($this->dbName, $this->dbPath, $this->dbPath));
+        rrmdir(str_replace(self::$dbName, self::$dbPath, self::$dbPath));
     }
 }

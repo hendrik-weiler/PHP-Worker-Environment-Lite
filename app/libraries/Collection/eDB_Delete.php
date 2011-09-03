@@ -46,7 +46,7 @@ class eDB_Delete
      */
     public function __construct($tableName, $search)
     {
-        if(eDB_Path && eDB_Name) {
+        if(eDB::$dbPath && eDB::$dbName) {
             $this->dbName = eDB::$dbName;
             $this->dbPath = eDB::$dbPath;
             $this->delete($tableName, $search);

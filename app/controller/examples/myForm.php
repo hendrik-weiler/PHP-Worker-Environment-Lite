@@ -8,7 +8,7 @@ class myForm extends PWEL_CONTROLLER {
                  ->button("Add")
                  ->close();
 
-        print "ü";
+        print $this->variable;
     }
 
     function redirect() {

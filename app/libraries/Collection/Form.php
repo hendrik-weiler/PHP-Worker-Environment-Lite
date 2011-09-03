@@ -39,6 +39,7 @@ class Form {
      */
     function open($action,$type="get",$attr=null)
     {
+    	$all_attr = '';
         if(is_array($attr))
         {
             foreach($attr as $key => $val)
@@ -89,13 +90,16 @@ class Form {
      * @return form 
      */
     function tfield($name,$value=null,$attr=null)
-    {      
+    {
+    	$all_attr = '';      
+		$type = '';
         if(is_array($attr))
         {
             if(in_array("password", $attr))
             { $type = "password"; }
             else
             { $type = "text"; }
+			
             foreach($attr as $key => $val)
             {
                 if($val != "password" && $val != "type")
@@ -147,6 +151,7 @@ class Form {
      */
     function listbox($name,$array,$attr=null)
     {
+    	$all_attr = '';
         if(is_array($attr) && !array_key_exists("key", $attr))
         {
             foreach($attr as $key => $val)
@@ -191,7 +196,8 @@ class Form {
      * @return form
      */
     function hidden($name,$value=null,$attr=null)
-    {     
+    {
+    	$all_attr = '';     
         if(is_array($attr))
         {
             foreach($attr as $key => $val)
@@ -212,6 +218,7 @@ class Form {
      */
     function checkbox($name,$value,$attr=null)
     {
+    	$all_attr = '';
         if(is_array($attr))
         {
             foreach($attr as $key => $val)
@@ -233,7 +240,8 @@ class Form {
      * @return form
      */
     function tarea($name,$value=null,$attr=null,$height=35,$cols=4)
-    {   
+    {
+    	$all_attr = '';   
         if(is_array($attr))
         {
             foreach($attr as $key => $val)
@@ -253,6 +261,7 @@ class Form {
      */
     function button($value,$attr=null)
     {
+    	$all_attr = '';
         if(is_array($attr))
         {
             foreach($attr as $key => $val)
@@ -270,6 +279,7 @@ class Form {
      */
     function close()
     {
+    	$buttons = '';
         $this->close .= $this->form_open;
         if(count($this->text) > 0)
         {

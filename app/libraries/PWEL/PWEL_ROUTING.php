@@ -102,12 +102,19 @@ class PWEL_ROUTING extends PWEL_CONTROLLER
     static $routed = false;
 
     /**
+     * Tells whether its linux or windows
+     * 
+     * @var string 
+     */
+    static $platform = "linux";
+
+    /**
      * Sets relative path and start routing
      */
     public function start()
     {
         $this->locateRelativePath();
-        if(!PWEL_COMPONENTS::$components['route']) {
+        if(empty(PWEL_COMPONENTS::$components['route'])) {
            $this->routeCurrentDir(); 
         }
     }
@@ -132,21 +139,11 @@ class PWEL_ROUTING extends PWEL_CONTROLLER
      */
     static function locateRelativePath()
     {
-        self::$relative_path = $_SERVER["DOCUMENT_ROOT"] . $_SERVER['PHP_SELF'];
-        self::$relative_path = str_replace("//", "/", self::$relative_path);
-        self::$relative_path = str_replace("index.php", "", self::$relative_path);
-        if(is_dir(self::$relative_path . "app")) {
-            return;
-        }
-        $path = explode("/", self::$relative_path);
-        $count = count($path);
-        for($i = $count; $i >= 0; --$i) {
-            unset($path[$i]);
-            self::$relative_path = implode("/",$path) . "/";
-            if(is_dir(self::$relative_path . "/app")) {
-                break;
-            }
-        }
+		 $dir = './';
+		 while(!is_dir($dir . '/app'))
+		 	$dir .= '../';
+		 
+		 self::$relative_path = realpath($dir) . '/';
     }
 
     /**
@@ -265,6 +262,7 @@ class PWEL_ROUTING extends PWEL_CONTROLLER
             $namespace = null;
         }
         $path = self::$relative_path.'app/controller/' . self::$searchResult . $namespace . $class . '.php';
+
         if(file_exists($path)) {
             require_once $path;
             self::$ControllerInfo["path"] = $path;
@@ -320,7 +318,16 @@ class PWEL_ROUTING extends PWEL_CONTROLLER
      */
     static function autoSearch($path, $search)
     {
+        if(self::$platform == "windows") {
+            $seperator = "\\";
+            $path = str_replace("/", $seperator, $path);
+        } else {
+            $seperator = "/";
+            $path = str_replace("\\", $seperator, $path);
+        }
+        
         $dir = self::$relative_path . $path;
+
         if(!is_dir($dir))
         {
             return false;
@@ -347,7 +354,7 @@ class PWEL_ROUTING extends PWEL_CONTROLLER
             }
             if($hasDirectory == true && !empty($dirs)) {
                 foreach($dirs as $directory) {
-                    if(self::autoSearch($directory . "/", $search) == true) {
+                    if(self::autoSearch($directory . $seperator, $search) == true) {
                         return true;
                     }
                 }

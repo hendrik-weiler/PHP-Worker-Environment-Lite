@@ -64,7 +64,7 @@ class eDB_Select
      */
     public function __construct($table=null, $search=null)
     {
-        if(eDB_Path && eDB_Name) {
+        if(eDB::$dbPath && eDB::$dbName) {
             $this->dbName = eDB::$dbName;
             $this->dbPath = eDB::$dbPath;
             $this->search = $search;
@@ -82,7 +82,8 @@ class eDB_Select
     public function getColumns($tableName=null, $primary=false)
     {
         $table = new eDB_Table();
-
+		$tableContent = null;
+		
         if($table != null) {
             if($table->exists($tableName)) {
                 $tableContent = $this->getTableContent($tableName);

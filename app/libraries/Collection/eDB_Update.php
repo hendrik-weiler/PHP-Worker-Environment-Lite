@@ -47,7 +47,7 @@ class eDB_Update
      */
     public function __construct($tableName=null, $search=null, $values=null)
     {
-        if(eDB_Path && eDB_Name) {
+        if(eDB::$dbPath && eDB::$dbName) {
             $this->dbName = eDB::$dbName;
             $this->dbPath = eDB::$dbPath;
             
@@ -70,7 +70,7 @@ class eDB_Update
         foreach($values as $col => $value) {
             $ChangedRow[0][$col] = $value;
         }
-        $cols = $select->getColumns($tableName);
+        $cols = $select->getColumns($tableName,true);
         $content = $select->search($tableName, '*');
         $completeContent[] = $cols;
         foreach($content as $row) {
@@ -88,6 +88,7 @@ class eDB_Update
     public function updateTable($rows,$tableName)
     {
         $ifTable = new eDB_Table();
+		$inFile = null;
         if($ifTable->exists($tableName)) {
             $table = fopen(str_replace('//', '/', $this->dbPath . "/"
                                         . $tableName . '.edb'), 'w');

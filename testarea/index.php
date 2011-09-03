@@ -16,17 +16,11 @@ new Class_Auto_Load('../app/libraries/Collection');
 //////////////////////////////////
 $pwel = new PWEL();
 $pwel->configRouting(array(
-    'start' => 'start',
+    'start' => 'test',
     'error' => 'error',
-    'autosearch' => true,
-    'namespace' => 'html',
-    'namespacerange' => array(
-        'html','layout'
-    )
+    'namespace' => 'examples'
 ));
-$pwel->initialize(
-             new PWEL_COMPONENT_ROUTE('lang:eng/class:/method:/param:')
-             );
+$pwel->initialize(new PWEL_COMPONENT_ROUTE('class:/method:/param:'));
 //////////////////////////////////
 ///      DEBUG-Mode/Helper     ///
 //////////////////////////////////

@@ -46,7 +46,7 @@ class eDB_Insert
      */
     public function __construct($table, array $content)
     {
-        if(eDB_Path && eDB_Name) {
+        if(eDB::$dbPath && eDB::$dbName) {
             $this->dbName = eDB::$dbName;
             $this->dbPath = eDB::$dbPath;
             if($table)

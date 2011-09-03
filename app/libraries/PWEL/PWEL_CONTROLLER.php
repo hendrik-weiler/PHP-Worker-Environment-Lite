@@ -37,11 +37,19 @@ class PWEL_CONTROLLER
      */
     static $displayedFile;
 
+    public $plugin;
+
+    public $component;
+
+
     /**
      * Loads register/components into class
      */
     public function __construct()
     {
+    	$this->component = new stdClass();
+		$this->plugin = new stdClass();
+		
         if(!class_exists('PWEL'))
             return;
         
@@ -53,12 +61,13 @@ class PWEL_CONTROLLER
                 }
             }
         }
+		
         if(isset(PWEL_COMPONENTS::$components)) {
             foreach(PWEL_COMPONENTS::$components as $route) {
                 foreach($route as $obj) {
-                    if(preg_match("/component/i",strtolower(get_class($obj)))) {
+                    if(isset($obj) && preg_match("/component/i",strtolower(get_class($obj)))) {
                         $componentname = strtolower(str_replace('PWEL_COMPONENT_', '', get_class($obj)));
-                        $this->component->$componentname = $obj;
+						$this->component->$componentname = $obj;
                     }
                 }
             }
@@ -132,7 +141,7 @@ class PWEL_CONTROLLER
                 $extension = ".php";
             }
         } else {
-            $filename .= ".php";
+            $extension = ".php";
         }
         PWEL_ROUTING::correctNamespace();
         if(PWEL_ROUTING::$autoSearch == true) {

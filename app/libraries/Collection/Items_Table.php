@@ -144,7 +144,8 @@ class Items_Table {
         if(!isset($this->format)) {
             $this->format = $this->generateStandardFormat("elements");
             $this->setFormat($this->format);
-        }        
+        }     
+		$output = '';   
         foreach($this->rows as $row) {
             $outputFormat = $this->format;
             foreach($this->replaceElements as $element) {
@@ -167,6 +168,7 @@ class Items_Table {
             $this->formatHead = $this->generateStandardFormat("head");
             $this->setHeadFormat($this->formatHead);
         } 
+		$output = '';
         $outputFormat = $this->formatHead;
         foreach($this->replaceElementsHead as $element) {
            $outputFormat = str_replace("&{$element}", $this->headRow[($element-1)], $outputFormat);

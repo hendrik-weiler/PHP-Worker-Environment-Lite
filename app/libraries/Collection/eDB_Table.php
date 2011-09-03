@@ -55,6 +55,8 @@ class eDB_Table
      */
     public function __construct()
     {
+    	$name = '';
+		$columns = '';
         if(count(func_get_args())>0) {
             foreach(func_get_args() as $arg) {
                 if(is_array($arg)) {
@@ -65,7 +67,7 @@ class eDB_Table
                 }
             }
         }
-        if(eDB_Path && eDB_Name) {
+        if(eDB::$dbPath && eDB::$dbName) {
             $this->dbName = eDB::$dbName;
             $this->dbPath = eDB::$dbPath;
             $this->tableName = $name;

@@ -69,11 +69,28 @@ class PWEL
      */
     public function configRouting(array $config)
     {
-        PWEL_ROUTING::$error_controller = $config['error'];
-        PWEL_ROUTING::$start_controller = $config['start'];
-        PWEL_ROUTING::$autoSearch = $config['autosearch'];
-        PWEL_ROUTING::$namespace = $config['namespace'];
-        PWEL_ROUTING::$namespaceRange = $config['namespacerange'];
+        if(!empty($config['error']) || !empty($config['start']))
+        {
+            PWEL_ROUTING::$error_controller = $config['error'];
+            PWEL_ROUTING::$start_controller = $config['start'];
+        } else {
+            $this->autoConfigRouting();
+        }
+
+        if(!empty($config['autosearch']))
+        {
+            PWEL_ROUTING::$autoSearch = $config['autosearch'];
+        }
+
+        if(!empty($config['namespace']))
+        {
+            PWEL_ROUTING::$namespace = $config['namespace'];
+        }
+
+        if(!empty($config['namespacerange']))
+        {
+            PWEL_ROUTING::$namespaceRange = $config['namespacerange'];
+        }
         self::$configured = true;
     }
 

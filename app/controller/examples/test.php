@@ -12,7 +12,9 @@ class test extends PWEL_CONTROLLER {
         );
     }
     
-
+	function index() {
+		
+	}
     
     function test2() {
         PWEL_COMPONENT_LAYOUT::enableLayout();

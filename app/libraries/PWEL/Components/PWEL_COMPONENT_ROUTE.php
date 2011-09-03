@@ -139,7 +139,8 @@ class PWEL_COMPONENT_ROUTE implements PWEL_COMPONENT_INTERFACE
     {
         $red = new PWEL_URL();
         $vars = self::$variables;
-
+		$link = '';
+		
         if(empty($this->setRoutes['class']))
             unset($vars['class']);
 
@@ -163,11 +164,13 @@ class PWEL_COMPONENT_ROUTE implements PWEL_COMPONENT_INTERFACE
                         }
                     }
 
-                    if(!is_array(self::$acceptRange[PWEL_ROUTING::$namespace])) {
+                    if(isset(self::$acceptRange[PWEL_ROUTING::$namespace]) 
+                    	&& !is_array(self::$acceptRange[PWEL_ROUTING::$namespace])) {
                         return;
                     }
 
-                    if(!in_array($vars[$key], self::$acceptRange[PWEL_ROUTING::$namespace]))
+                    if(isset(self::$acceptRange[PWEL_ROUTING::$namespace])
+                    	&& !in_array($vars[$key], self::$acceptRange[PWEL_ROUTING::$namespace]))
                        $red->redirect($link);
                 }
             }
